@@ -48,12 +48,5 @@ class CustomerController(private val customerService: CustomerService){
         return ResponseEntity.notFound().build()
     }
 
-    @GetMapping("/remove-rent-test")
-    fun removeRentalTest():ResponseEntity<String>{
-        if(customerService.removeRentStoreByStoreId(1, 3)){
-            return ResponseEntity.accepted().body("removed")
-        }
-        return ResponseEntity.notFound().build()
-    }
 
 }
