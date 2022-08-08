@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+    db:
+      image: store-rental-database
+      build:
+        context: .
+        dockerfile: ./Dockerfile
+        target: development
+      container_name: store_rental
+      restart: always
+      environment:
+        POSTGRES_DB: storeRentalDB
+        POSTGRES_USER: store_db_admin
+        POSTGRES_PASSWORD: admin
+      ports:
+        - '8182:5432'
+      volumes:
+        - /db :/var/lib/postgresql/data/
+
+
