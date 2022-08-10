@@ -1,6 +1,7 @@
 package com.example.storeRental.controller
 
 import com.example.storeRental.domain.CustomerModel
+import com.example.storeRental.domain.RentalDetailModel
 import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.service.CustomerService
 import org.springframework.http.ResponseEntity
@@ -20,8 +21,13 @@ class CustomerController(private val customerService: CustomerService){
     }
 
     @PostMapping("/rents")
-    fun getAllRented(@RequestParam(value = "cusId", required = true) cusId:Long): ResponseEntity<List<RentalModel>> {
-        return ResponseEntity.ok().body(customerService.getAllRented(cusId))
+    fun getAllRentals(@RequestParam(value = "cusId", required = true) cusId:Long): ResponseEntity<List<RentalModel>> {
+        return ResponseEntity.ok().body(customerService.getAllRental(cusId))
+    }
+
+    @PostMapping("/rent-details")
+    fun getAllRentDetails(@RequestParam(required = true) rental_id:Long):ResponseEntity<List<RentalDetailModel>>{
+        return ResponseEntity.ok().body(customerService.getAllRentalDetails(rental_id))
     }
 
     @PostMapping("/rent-store")

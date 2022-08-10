@@ -1,4 +1,4 @@
-package com.example.storeRental.utils
+package com.example.storeRental.utils.RequestClass
 
 data class UserRegisterDataRequest(
     var username:String,

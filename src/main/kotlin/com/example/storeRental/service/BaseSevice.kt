@@ -5,4 +5,5 @@ interface BaseSevice<R, T> {
     fun getById(id:T):R
     fun deleteById(id:T)
     fun delete(model:R)
+    fun update(model: R)
 }

@@ -2,9 +2,8 @@ package com.example.storeRental.service
 
 import com.example.storeRental.domain.UserModel
 import com.example.storeRental.repo.UserRepo
-import com.example.storeRental.utils.UserLoginDataResponse
-import com.example.storeRental.utils.UserRegisterDataResponse
-import org.springframework.http.ResponseEntity
+import com.example.storeRental.utils.RequestClass.UserLoginDataRequest
+import com.example.storeRental.utils.RequestClass.UserRegisterDataRequest
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Service
 
@@ -36,7 +35,7 @@ class UserService(private val userRepo: UserRepo):BaseSevice<UserModel, Long>{
         return userRepo.findAll()
     }
 
-    fun register(userRes: UserRegisterDataResponse): Boolean{
+    fun register(userRes: UserRegisterDataRequest): Boolean{
 
         if(userRes.username.length > 5 &&
             userRes.password.length > 8 &&
@@ -50,7 +49,7 @@ class UserService(private val userRepo: UserRepo):BaseSevice<UserModel, Long>{
         return false
     }
 
-    fun login(userRes: UserLoginDataResponse):Boolean{
+    fun login(userRes: UserLoginDataRequest):Boolean{
         if(userRes.password.length > 8 && userRes.email != null )
         {
             var user = userRepo.findByEmail(userRes.email).orElse(null)
@@ -59,6 +58,10 @@ class UserService(private val userRepo: UserRepo):BaseSevice<UserModel, Long>{
             return false
         }
         return false
+    }
+
+    override fun update(model: UserModel) {
+        TODO("Not yet implemented")
     }
 
 }

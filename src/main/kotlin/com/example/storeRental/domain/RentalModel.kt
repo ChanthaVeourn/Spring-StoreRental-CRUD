@@ -1,9 +1,11 @@
 package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import javax.persistence.*
 import kotlin.reflect.jvm.internal.impl.resolve.constants.KClassValue.Value.LocalClass
 
@@ -11,15 +13,19 @@ import kotlin.reflect.jvm.internal.impl.resolve.constants.KClassValue.Value.Loca
 @Table(name = "rental")
 class RentalModel(
 
+    @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
     @ManyToOne(fetch = FetchType.LAZY,optional = false, cascade = [CascadeType.DETACH])
     @JoinColumn(name = "CusId", referencedColumnName = "id")
     var customer: CustomerModel
+
 ):BaseModel(){
 
     @Column(name = "rentDate")
     override var createdDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental", cascade = [CascadeType.REMOVE], orphanRemoval = true)
     lateinit var rentalDetails:MutableList<RentalDetailModel>
+    @Column(name = "updated_date")
+    var updatedDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
 }

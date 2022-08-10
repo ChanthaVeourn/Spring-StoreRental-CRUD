@@ -49,6 +49,11 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         val store11 = StoreModel(storeType = storeT2, unitPrice = 800.99, floor = "12")
         storeRepo.saveAll(listOf(store1,store2,store3,store4,store5,store6,store7,store8,store9,store10,store11))
 
+        val img1 = StoreImageModel("/img/k.jpg",store1)
+        storeImageRepo.save(img1)
+        println("=========================================")
+        println("=========================================")
+
         val cus1 = CustomerModel(name = "bot", address = "btn", phone = "0465324")
         val cus2 = CustomerModel(name = "asd", address = "fds", phone = "045656453")
         val cus3 = CustomerModel(name = "bdfot", address = "bsdftn", phone = "0898675")
@@ -58,7 +63,7 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         cusRepo.save(CustomerModel(name = "wre", address = "b2234tn", phone = "05645434"))
         cusRepo.save(CustomerModel(name = "kj", address = "dsf", phone = "04356354"))
 
-        val rental1 = RentalModel(cus1)
+        val rental1 = RentalModel(cus1) // 1cus -> many rentals
         val rental2 = RentalModel(cus1)
         val rental3 = RentalModel(cus1)
         val rental4 = RentalModel(cus2)
@@ -69,14 +74,15 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         rentalRepo.saveAll(listOf(rental1,rental2,rental3,rental4,rental5,rental6,rental7,rental8))
 
         val rentalDetails = listOf(
-            RentalDetailModel(store1,rental1),
-            RentalDetailModel(store3,rental2),
-            RentalDetailModel(store5,rental3),
+            RentalDetailModel(store1,rental1),//cus1(cus1 -> rental1) rents store 1 / 1 rental - many rental_detail
+            RentalDetailModel(store3,rental1),//cus 1 rents store 3
+            RentalDetailModel(store5,rental3),//cus 1 rents store 5
             RentalDetailModel(store6,rental4),
-            RentalDetailModel(store2,rental5),
+            RentalDetailModel(store2,rental2),
             RentalDetailModel(store4,rental6),
-            RentalDetailModel(store7,rental7),
-            RentalDetailModel(store8,rental8)
+            RentalDetailModel(store9,rental7),
+            RentalDetailModel(store8,rental8),
+            RentalDetailModel(store8,rental2)
         )
         rentalDetailRepo.saveAll(rentalDetails)
     }

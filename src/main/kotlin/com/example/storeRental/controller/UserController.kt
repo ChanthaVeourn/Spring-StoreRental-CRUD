@@ -1,8 +1,8 @@
 package com.example.storeRental.controller
 
 import com.example.storeRental.domain.UserModel
-import com.example.storeRental.utils.UserLoginDataResponse
-import com.example.storeRental.utils.UserRegisterDataResponse
+import com.example.storeRental.utils.RequestClass.UserLoginDataRequest
+import com.example.storeRental.utils.RequestClass.UserRegisterDataRequest
 import com.example.storeRental.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -25,14 +25,14 @@ class UserController(private var userService: UserService) {
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody userResource: UserRegisterDataResponse): ResponseEntity<String>{
+    fun register(@RequestBody userResource: UserRegisterDataRequest): ResponseEntity<String>{
         if(userService.register(userResource))
             return ResponseEntity.status(201).build()
         return ResponseEntity.badRequest().body("Invalid provided information.")
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody userResource: UserLoginDataResponse):ResponseEntity<String>{
+    fun login(@RequestBody userResource: UserLoginDataRequest):ResponseEntity<String>{
         if(userService.login(userResource)){
             return ResponseEntity.ok().body("Logged-in User")
         }

@@ -64,12 +64,15 @@ class CustomerService(
     }
 
 
-    fun getAllRented(cusId: Long): List<RentalModel>? {
-        val customer = customerRepo.findById(cusId).get()
+    fun getAllRental(cusId: Long): List<RentalModel>? {
+        val customer = customerRepo.findById(cusId).orElse(null)
         return customer.rentals
     }
 
-
+    fun getAllRentalDetails(rental_id:Long):List<RentalDetailModel>?{
+        val rentD = rentalRepo.findById(rental_id).orElse(null)
+            return rentD.rentalDetails
+    }
 
     fun getAllRentedStore(cusId: Long): List<StoreModel>? {
       val storeIds = customerRepo.getRentedStoreIDs(cusId)
@@ -91,6 +94,10 @@ class CustomerService(
             return true
         }
         return false
+    }
+
+    override fun update(model: CustomerModel) {
+        TODO("Not yet implemented")
     }
 
 
