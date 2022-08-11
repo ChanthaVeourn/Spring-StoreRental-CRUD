@@ -1,6 +1,7 @@
 package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.OneToMany
@@ -10,9 +11,8 @@ import javax.persistence.Table
 @Table(name = "storetype")
 class StoreTypeModel(
     var typeName:String,
-
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "storeType")
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH], mappedBy = "storeType")
     var stores:MutableList<StoreModel>? = null
 
 ):BaseModel()

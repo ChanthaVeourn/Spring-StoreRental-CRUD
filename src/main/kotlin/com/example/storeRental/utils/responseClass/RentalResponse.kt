@@ -1,4 +1,4 @@
-package com.example.storeRental.utils.ResponseClass
+package com.example.storeRental.utils.responseClass
 
 data class RentalResponse(
     val id: Long?,

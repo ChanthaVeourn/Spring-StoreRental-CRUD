@@ -12,7 +12,7 @@ class StoreImageModel(
     @Column(nullable = false, length = 128)
     var imgUrl: String,
 
-    @OneToOne(cascade = [CascadeType.DETACH], optional = true, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "storeId")
     var store:StoreModel? = null
 

@@ -19,12 +19,4 @@ class RentalDetailService(private val rentalDetailRepo: RentalDetailRepo):BaseSe
 
     }
 
-    override fun delete(model: RentalDetailModel) {
-
-    }
-
-    override fun update(model: RentalDetailModel) {
-
-    }
-
 }

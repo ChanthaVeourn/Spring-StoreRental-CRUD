@@ -32,7 +32,7 @@ class CustomerController(private val customerService: CustomerService){
 
     @PostMapping("/rent-store")
     fun rentStore(@RequestParam("cusId", required = true) cusId:Long,
-                  @RequestParam("storeId", required = true) storeId:Long,):ResponseEntity<String>{
+                  @RequestParam("storeId", required = true) storeId:Long):ResponseEntity<String>{
         if(customerService.rentStore(cusId,storeId))
             return ResponseEntity.accepted().build()
         return ResponseEntity.badRequest().build()

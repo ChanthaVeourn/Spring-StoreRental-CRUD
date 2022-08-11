@@ -14,7 +14,7 @@ import kotlin.reflect.jvm.internal.impl.resolve.constants.KClassValue.Value.Loca
 class RentalModel(
 
     @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
-    @ManyToOne(fetch = FetchType.LAZY,optional = false, cascade = [CascadeType.DETACH])
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "CusId", referencedColumnName = "id")
     var customer: CustomerModel
 
@@ -24,8 +24,10 @@ class RentalModel(
     override var createdDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental", cascade = [CascadeType.REMOVE], orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental", cascade = [CascadeType.ALL], orphanRemoval = true)
     lateinit var rentalDetails:MutableList<RentalDetailModel>
+
     @Column(name = "updated_date")
     var updatedDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
+
 }

@@ -44,6 +44,7 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         val store6 = StoreModel(storeType = storeT3, unitPrice = 1200.99, floor = "6B")
         val store7 = StoreModel(storeType = storeT5, unitPrice = 800.99, floor = "12")
         val store8 = StoreModel(storeType = storeT5, unitPrice = 566.99, floor = "8")
+        store8.rented = true;
         val store9 = StoreModel(storeType = storeT4, unitPrice = 444.99, floor = "12")
         val store10 = StoreModel(storeType = storeT1, unitPrice = 1200.99, floor = "6B")
         val store11 = StoreModel(storeType = storeT2, unitPrice = 800.99, floor = "12")
@@ -51,23 +52,19 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
 
         val img1 = StoreImageModel("/img/k.jpg",store1)
         storeImageRepo.save(img1)
-        println("=========================================")
-        println("=========================================")
 
         val cus1 = CustomerModel(name = "bot", address = "btn", phone = "0465324")
         val cus2 = CustomerModel(name = "asd", address = "fds", phone = "045656453")
         val cus3 = CustomerModel(name = "bdfot", address = "bsdftn", phone = "0898675")
-        cusRepo.save(cus1)
-        cusRepo.save(cus2)
-        cusRepo.save(cus3)
-        cusRepo.save(CustomerModel(name = "wre", address = "b2234tn", phone = "05645434"))
-        cusRepo.save(CustomerModel(name = "kj", address = "dsf", phone = "04356354"))
+        val cus4 =CustomerModel(name = "wre", address = "b2234tn", phone = "05645434")
+        val cus5 = CustomerModel(name = "kj", address = "dsf", phone = "04356354")
+        cusRepo.saveAll(listOf(cus1,cus2,cus3,cus4,cus5))
 
         val rental1 = RentalModel(cus1) // 1cus -> many rentals
         val rental2 = RentalModel(cus1)
-        val rental3 = RentalModel(cus1)
+        val rental3 = RentalModel(cus5)
         val rental4 = RentalModel(cus2)
-        val rental5 = RentalModel(cus2)
+        val rental5 = RentalModel(cus4)
         val rental6 = RentalModel(cus2)
         val rental7 = RentalModel(cus3)
         val rental8 = RentalModel(cus3)

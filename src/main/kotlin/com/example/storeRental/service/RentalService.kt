@@ -2,7 +2,7 @@ package com.example.storeRental.service
 
 import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.repo.RentalRepo
-import com.example.storeRental.utils.RequestClass.RentalExchangeStoreRequest
+import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -37,8 +37,27 @@ class RentalService(private val rentalRepo: RentalRepo,
         return rentalRepo.findAll()
     }
 
-    override fun deleteById(id: Long) {
+    //change customer (old-cus remove rental, new-cus get old-cus's rental)
+    fun changeCustomer(rentalId:Long, cusId:Long):RentalModel?{
 
+        val rental = getById(rentalId)
+        val oldCus = rental.customer
+        val newCus = customerService.getById(cusId)
+
+        if (rental != null && newCus != null){
+
+            //rental update customer
+            rental.customer = newCus
+            rentalRepo.save(rental)
+
+            newCus.rentals.add(rental)
+            oldCus.rentals.remove(rental)
+
+            customerService.save(newCus)
+            customerService.save(oldCus)
+            return rental
+        }
+        return null
     }
 
     // in case two customer exchange store
@@ -75,9 +94,7 @@ class RentalService(private val rentalRepo: RentalRepo,
         return null
     }
 
-    override fun update(model: RentalModel) {
-    }
-
-    override fun delete(model: RentalModel) {
+    override fun deleteById(id: Long) {
+        rentalRepo.deleteById(id)
     }
 }

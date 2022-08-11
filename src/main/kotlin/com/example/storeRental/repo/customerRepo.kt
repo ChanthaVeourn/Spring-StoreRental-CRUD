@@ -16,8 +16,9 @@ interface CustomerRepo:JpaRepository<CustomerModel, Long>, JpaSpecificationExecu
     fun findByName(name:String):Optional<CustomerModel>
 
     @Query("Select store_id from rental_detail" +
-          " inner join (SELECT rental.id as rentalId FROM rental INNER JOIN customer ON rental.cus_id = customer.id WHERE customer.id = :cusId) as cusRent" +
-          " on rental_detail.rental_id = cusRent.rentalId",
+            " inner join (SELECT rental.id as rentalId FROM rental INNER JOIN customer ON rental.cus_id = customer.id " +
+            "WHERE customer.id = :cusId) as cusRent" +
+            " on rental_detail.rental_id = cusRent.rentalId",
           nativeQuery = true
     )
     fun getRentedStoreIDs(cusId: Long):List<Long>

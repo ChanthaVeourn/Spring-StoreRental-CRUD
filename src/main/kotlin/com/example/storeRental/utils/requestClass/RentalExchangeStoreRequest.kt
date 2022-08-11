@@ -1,6 +1,5 @@
-package com.example.storeRental.utils.RequestClass
+package com.example.storeRental.utils.requestClass
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.lang.NonNull
 
 data class RentalExchangeStoreRequest(

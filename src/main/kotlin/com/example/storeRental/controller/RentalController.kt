@@ -2,8 +2,8 @@ package com.example.storeRental.controller
 
 import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.service.RentalService
-import com.example.storeRental.utils.RequestClass.RentalExchangeStoreRequest
-import com.example.storeRental.utils.ResponseClass.RentalResponse
+import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
+import com.example.storeRental.utils.responseClass.RentalResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -43,6 +43,16 @@ class RentalController(private val rentalService: RentalService){
                 )
             }
         }
+        return ResponseEntity.ok(response)
+    }
+
+    @PutMapping("/change-customer")
+    fun changeCustomer(@RequestParam rentalId:Long, @RequestParam cusId:Long):ResponseEntity<RentalResponse>{
+        val rentalChangeCus = rentalService.changeCustomer(rentalId, cusId)!!
+        val response = RentalResponse(id = rentalChangeCus.id,
+                                        cus_id = rentalChangeCus.customer.id,
+                                        updated = rentalChangeCus.updatedDate,
+                                        created = rentalChangeCus.createdDate)
         return ResponseEntity.ok(response)
     }
 }

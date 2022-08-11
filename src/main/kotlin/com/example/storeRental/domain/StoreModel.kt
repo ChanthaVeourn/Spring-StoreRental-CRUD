@@ -1,7 +1,6 @@
 package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.persistence.*
 
 @Entity
@@ -11,8 +10,8 @@ class StoreModel(
     @ManyToOne
     @JoinColumn(name = "StoreTypeID", referencedColumnName = "id")
     var storeType: StoreTypeModel,
-
-    @OneToOne( mappedBy = "store")
+    @JsonIgnore
+    @OneToOne( mappedBy = "store", cascade = [CascadeType.ALL], orphanRemoval = true)
     var img: StoreImageModel? = null,
 
     @Column(nullable = false)

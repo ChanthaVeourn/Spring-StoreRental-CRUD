@@ -36,10 +36,6 @@ class CustomerService(
         return customerRepo.findAll()
     }
 
-    override fun delete(model: CustomerModel) {
-        customerRepo.delete(model)
-    }
-
     fun getByName(name:String):Optional<CustomerModel> {
         return customerRepo.findByName(name)
     }
@@ -95,11 +91,6 @@ class CustomerService(
         }
         return false
     }
-
-    override fun update(model: CustomerModel) {
-        TODO("Not yet implemented")
-    }
-
 
 }
 
