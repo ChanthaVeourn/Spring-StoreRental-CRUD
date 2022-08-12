@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.session.StoreType
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -23,6 +24,10 @@ class StoreTypeController(private val storeTypeService: StoreTypeService) {
     @GetMapping
     fun getAll():List<StoreTypeModel>{
         return storeTypeService.getAll()
+    }
+    @GetMapping("/{id}")
+    fun getById(@PathVariable id:Long):StoreTypeModel{
+        return storeTypeService.getById(id)
     }
 
     @PutMapping("/update")

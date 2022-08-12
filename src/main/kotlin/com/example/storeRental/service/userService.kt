@@ -1,5 +1,6 @@
 package com.example.storeRental.service
 
+import com.example.storeRental.EncryptPwd
 import com.example.storeRental.domain.UserModel
 import com.example.storeRental.repo.UserRepo
 import com.example.storeRental.utils.requestClass.UserLoginRequest
@@ -37,7 +38,7 @@ class UserService(private val userRepo: UserRepo):BaseSevice<UserModel, Long>{
              userRes.email != null
         ){
             val newUser = UserModel(username = userRes.username, email = userRes.email)
-            newUser.setPassword(userRes.password)
+            newUser.setHashPwd(EncryptPwd().encryptPwd(userRes.password))
             userRepo.save(newUser)
             return true
         }

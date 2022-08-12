@@ -3,6 +3,7 @@ package com.example.storeRental.service
 import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.repo.RentalRepo
 import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
+import com.example.storeRental.utils.responseClass.RentalResponse
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -38,13 +39,13 @@ class RentalService(private val rentalRepo: RentalRepo,
     }
 
     //change customer (old-cus remove rental, new-cus get old-cus's rental)
-    fun changeCustomer(rentalId:Long, cusId:Long):RentalModel?{
+    fun changeCustomer(rentalId:Long, cusId:Long):RentalResponse?{
 
         val rental = getById(rentalId)
         val oldCus = rental.customer
         val newCus = customerService.getById(cusId)
 
-        if (rental != null && newCus != null){
+        if (rental != null && newCus != null) {
 
             //rental update customer
             rental.customer = newCus
@@ -55,13 +56,19 @@ class RentalService(private val rentalRepo: RentalRepo,
 
             customerService.save(newCus)
             customerService.save(oldCus)
-            return rental
+
+            return RentalResponse(
+                id = rental.id,
+                cus_id = rental.customer.id,
+                updated = rental.updatedDate,
+                created = rental.createdDate
+            )
         }
         return null
     }
 
     // in case two customer exchange store
-     fun exchangeRental(rentalExchangeStoreRequest: RentalExchangeStoreRequest):List<RentalModel>? {
+     fun exchangeRental(rentalExchangeStoreRequest: RentalExchangeStoreRequest):List<RentalResponse>? {
         val wantedRental = getById(rentalExchangeStoreRequest.wanted_rental_id)?:null
 
          if(wantedRental != null) {
@@ -69,7 +76,7 @@ class RentalService(private val rentalRepo: RentalRepo,
              val newCus = customerService.getById(rentalExchangeStoreRequest.cus_id)
              val newCusRental= getById(rentalExchangeStoreRequest.cus_rental_id)
              val oldCus = wantedRental.customer
-
+             val rentalResList = mutableListOf<RentalResponse>()
              //add wanted-rental to new-cus
              wantedRental.customer = newCus
              wantedRental.updatedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
@@ -89,7 +96,18 @@ class RentalService(private val rentalRepo: RentalRepo,
              customerService.save(oldCus)
              customerService.save(newCus)
 
-             return listOf(wantedRental, newCusRental)
+             val exchangedRentalsList = listOf(wantedRental, newCusRental)
+             exchangedRentalsList.stream().forEach { rental->
+                 run {
+                     rentalResList.add(
+                         RentalResponse(
+                             rental.id, rental.customer.id, rental.createdDate, rental.updatedDate
+                         )
+                     )
+                 }
+             }
+
+             return rentalResList.toList()
          }
         return null
     }

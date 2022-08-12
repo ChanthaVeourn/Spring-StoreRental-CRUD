@@ -17,16 +17,16 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
     fun dataInit() = ApplicationRunner{
 
         val backob = UserModel("Back Ko", "backko@mail.com")
-        backob.setPassword("123")
+        backob.setHashPwd(EncryptPwd().encryptPwd("123"))
 
         val jack = UserModel("Jack", "jack@mail.com")
-        jack.setPassword("1223")
+        jack.setHashPwd(EncryptPwd().encryptPwd("123"))
 
         val john = UserModel("John", "john@mail.com")
-        john.setPassword("sdsd")
+        john.setHashPwd(EncryptPwd().encryptPwd("123"))
 
-        val thida = UserModel("thida", "thida@mail.com")
-        thida.setPassword("asf")
+        val thida = UserModel("Thida", "thida@mail.com")
+        thida.setHashPwd(EncryptPwd().encryptPwd("123"))
         userRepo.saveAll(listOf(backob, jack, john, thida))
 
         val storeT1 = StoreTypeModel(" Restaurant")

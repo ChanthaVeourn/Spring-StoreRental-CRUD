@@ -14,9 +14,9 @@ class UserModel(
     @Column(name = "email")
     private var email: String
 ): BaseModel(){
-    fun setPassword(rawPassword: String) {
-        hashPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt())
-    }
     private lateinit var hashPassword: String
+    fun setHashPwd(hashedPws:String){
+        hashPassword = hashedPws
+    }
     fun getHashPwd() = hashPassword
 }

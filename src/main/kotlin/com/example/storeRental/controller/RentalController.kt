@@ -32,27 +32,13 @@ class RentalController(private val rentalService: RentalService){
 
     @PutMapping("/exchange")
     fun exchangeStore(@RequestBody rentalExchangeStoreRequest: RentalExchangeStoreRequest):ResponseEntity<List<RentalResponse>>{
-        val exchangedRentalsList = rentalService.exchangeRental(rentalExchangeStoreRequest)
-        val response = mutableListOf<RentalResponse>()
-        exchangedRentalsList!!.stream().forEach { rental->
-            run {
-                response.add(
-                    RentalResponse(
-                        rental.id, rental.customer.id, rental.createdDate, rental.updatedDate
-                    )
-                )
-            }
-        }
+        val response = rentalService.exchangeRental(rentalExchangeStoreRequest)
         return ResponseEntity.ok(response)
     }
 
     @PutMapping("/change-customer")
     fun changeCustomer(@RequestParam rentalId:Long, @RequestParam cusId:Long):ResponseEntity<RentalResponse>{
-        val rentalChangeCus = rentalService.changeCustomer(rentalId, cusId)!!
-        val response = RentalResponse(id = rentalChangeCus.id,
-                                        cus_id = rentalChangeCus.customer.id,
-                                        updated = rentalChangeCus.updatedDate,
-                                        created = rentalChangeCus.createdDate)
+        val response = rentalService.changeCustomer(rentalId, cusId)!!
         return ResponseEntity.ok(response)
     }
 }
