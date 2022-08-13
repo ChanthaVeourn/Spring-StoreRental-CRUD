@@ -1,4 +1,4 @@
-package com.example.storeRental.utils.RequestValidation
+package com.example.storeRental.utils.requestValidation
 
 import com.example.storeRental.domain.StoreModel
 import com.example.storeRental.utils.requestClass.StoreUpdateRequest

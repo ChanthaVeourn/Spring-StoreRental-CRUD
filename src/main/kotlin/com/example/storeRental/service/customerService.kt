@@ -8,8 +8,8 @@ import com.example.storeRental.repo.CustomerRepo
 import com.example.storeRental.repo.RentalDetailRepo
 import com.example.storeRental.repo.RentalRepo
 import com.example.storeRental.repo.StoreRepo
+import com.example.storeRental.utils.responseClass.CusNameIdRespose
 import org.springframework.stereotype.Service
-import java.util.*
 
 
 @Service
@@ -18,10 +18,10 @@ class CustomerService(
                         private val storeRepo: StoreRepo,
                         private val rentalRepo: RentalRepo,
                         private val rentalDetailRepo: RentalDetailRepo
-                        ):BaseSevice<CustomerModel, Long>
+                        ):BaseSevice<com.example.storeRental.domain.CustomerModel, Long>
 {
     //basic
-    override fun save(model: CustomerModel) {
+    override fun save(model: com.example.storeRental.domain.CustomerModel) {
         customerRepo.save(model)
     }
 
@@ -32,18 +32,23 @@ class CustomerService(
     override fun deleteById(id: Long) {
         customerRepo.deleteById(id)
     }
-    fun getAll():List<CustomerModel>{
+    fun getAll():List<com.example.storeRental.domain.CustomerModel>{
         return customerRepo.findAll()
     }
 
-    fun getByName(name:String):Optional<CustomerModel> {
-        return customerRepo.findByName(name)
+    fun getByName(name:String):List<CusNameIdRespose> {
+        val cusNameId = customerRepo.findByName(name).orElse(null)
+        var cusRes = mutableListOf<CusNameIdRespose>()
+        cusNameId.stream().forEach{cus->run{
+            cusRes.add(CusNameIdRespose(cus.name,cus.id))
+        }}
+        return cusRes.toList()
     }
 
     //customer action
     fun rentStore(cusId: Long,storeId: Long):Boolean{
         //check if customer have AAA (Authentication authorization Account)
-        val customer:CustomerModel? = customerRepo.findById(cusId).orElse(null)
+        val customer: com.example.storeRental.domain.CustomerModel? = customerRepo.findById(cusId).orElse(null)
         val store = storeRepo.findById(storeId).orElse(null)
         if(customer != null && store != null) {
             if(!store.rented){
@@ -58,7 +63,6 @@ class CustomerService(
         }
         return false
     }
-
 
     fun getAllRental(cusId: Long): List<RentalModel>? {
         val customer = customerRepo.findById(cusId).orElse(null)

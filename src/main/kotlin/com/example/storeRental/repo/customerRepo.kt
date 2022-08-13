@@ -1,19 +1,17 @@
 package com.example.storeRental.repo
 
-import com.example.storeRental.domain.CustomerModel
 import com.example.storeRental.domain.StoreModel
+import com.example.storeRental.utils.projection.CustomerNameAndId
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.util.*
-import javax.persistence.EntityManager
 
 @Repository
-interface CustomerRepo:JpaRepository<CustomerModel, Long>, JpaSpecificationExecutor<CustomerModel> {
+interface CustomerRepo:JpaRepository<com.example.storeRental.domain.CustomerModel, Long>, JpaSpecificationExecutor<com.example.storeRental.domain.CustomerModel> {
 
-    fun findByName(name:String):Optional<CustomerModel>
+    fun findByName(name:String): Optional<List<CustomerNameAndId>>
 
     @Query("Select store_id from rental_detail" +
             " inner join (SELECT rental.id as rentalId FROM rental INNER JOIN customer ON rental.cus_id = customer.id " +

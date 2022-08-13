@@ -1,6 +1,6 @@
 package com.example.storeRental.service
 
-import com.example.storeRental.utils.RequestValidation.StoreDataValidation
+import com.example.storeRental.utils.requestValidation.StoreDataValidation
 import com.example.storeRental.domain.StoreImageModel
 import com.example.storeRental.domain.StoreModel
 import com.example.storeRental.repo.StoreImageRepo
@@ -9,7 +9,6 @@ import com.example.storeRental.utils.requestClass.StoreUpdateRequest
 import com.example.storeRental.utils.responseClass.StoreResponse
 import com.example.storeRental.utils.responseClass.StoreUpdateImgResponse
 import com.example.storeRental.utils.responseClass.StoreUpdateResponse
-import org.apache.catalina.Store
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -31,6 +30,9 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
         return storeRepo.findAll()
     }
 
+    fun getAllRented():List<StoreModel>{
+        return storeRepo.findByRentedTrue()
+    }
     override fun deleteById(id: Long) {
         storeRepo.deleteById(id)
     }

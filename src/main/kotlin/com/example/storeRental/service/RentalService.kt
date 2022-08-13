@@ -21,8 +21,11 @@ class RentalService(private val rentalRepo: RentalRepo,
         rentalRepo.saveAll(rentals)
     }
 
-    override fun getById(id: Long): RentalModel {
-        return rentalRepo.findById(id).orElse(null)
+    fun getRentalById(id: Long): RentalResponse? {
+        val rental = rentalRepo.findById(id).orElse(null)
+        if(rental != null)
+            return RentalResponse(rental.id,rental.customer.id,rental.createdDate,rental.createdDate)
+        return null
     }
 
     fun deleteRentalById(id: Long):Boolean{
@@ -34,8 +37,16 @@ class RentalService(private val rentalRepo: RentalRepo,
       return false
     }
 
-    fun findAllRental():List<RentalModel>?{
-        return rentalRepo.findAll()
+    fun findAllRental():List<RentalResponse>?{
+        val rentalList = rentalRepo.findAll()
+        val rentalRes = mutableListOf<RentalResponse>()
+        rentalList.stream().forEach {
+            rent ->
+            run {
+                rentalRes.add(RentalResponse(rent.id, rent.customer.id, rent.createdDate,rent.updatedDate))
+            }
+        }
+        return rentalRes
     }
 
     //change customer (old-cus remove rental, new-cus get old-cus's rental)
@@ -114,5 +125,9 @@ class RentalService(private val rentalRepo: RentalRepo,
 
     override fun deleteById(id: Long) {
         rentalRepo.deleteById(id)
+    }
+
+    override fun getById(id: Long): RentalModel {
+        return rentalRepo.findById(id).orElse(null)
     }
 }

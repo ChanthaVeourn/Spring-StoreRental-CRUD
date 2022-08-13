@@ -1,8 +1,6 @@
 package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 @Entity

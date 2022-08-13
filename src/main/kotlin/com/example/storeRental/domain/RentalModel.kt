@@ -2,12 +2,9 @@ package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import javax.persistence.*
-import kotlin.reflect.jvm.internal.impl.resolve.constants.KClassValue.Value.LocalClass
 
 @Entity
 @Table(name = "rental")

@@ -55,7 +55,7 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
 
         val cus1 = CustomerModel(name = "bot", address = "btn", phone = "0465324")
         val cus2 = CustomerModel(name = "asd", address = "fds", phone = "045656453")
-        val cus3 = CustomerModel(name = "bdfot", address = "bsdftn", phone = "0898675")
+        val cus3 = CustomerModel(name = "bot", address = "bsdftn", phone = "0898675")
         val cus4 =CustomerModel(name = "wre", address = "b2234tn", phone = "05645434")
         val cus5 = CustomerModel(name = "kj", address = "dsf", phone = "04356354")
         cusRepo.saveAll(listOf(cus1,cus2,cus3,cus4,cus5))

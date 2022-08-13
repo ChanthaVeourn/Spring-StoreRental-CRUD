@@ -4,6 +4,7 @@ import com.example.storeRental.domain.UserModel
 import com.example.storeRental.utils.requestClass.UserLoginRequest
 import com.example.storeRental.utils.requestClass.UserRegisterRequest
 import com.example.storeRental.service.UserService
+import com.example.storeRental.utils.responseClass.UserResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*
 class UserController(private var userService: UserService) {
 
     @GetMapping("/{id}")
-    fun getUserById(@PathVariable id:Long):ResponseEntity<UserModel>{
-        val user =  userService.getById(id)
+    fun getUserById(@PathVariable id:Long):ResponseEntity<UserResponse>{
+        val user =  userService.getUserById(id)
         return ResponseEntity.ok().body(user)
     }
 

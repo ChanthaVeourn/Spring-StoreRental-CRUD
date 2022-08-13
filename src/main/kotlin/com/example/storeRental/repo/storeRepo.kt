@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StoreRepo: JpaRepository<StoreModel, Long> {
+    fun findByRentedTrue():List<StoreModel>
 }

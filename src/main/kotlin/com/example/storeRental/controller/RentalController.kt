@@ -7,6 +7,7 @@ import com.example.storeRental.utils.responseClass.RentalResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,8 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam
 class RentalController(private val rentalService: RentalService){
 
     @GetMapping
-    fun getAllRental():ResponseEntity<List<RentalModel>>?{
+    fun getAllRental():ResponseEntity<List<RentalResponse>>{
         return ResponseEntity.ok(rentalService.findAllRental())
+    }
+
+    @GetMapping("/{id}")
+    fun getById(@PathVariable id:Long):ResponseEntity<RentalResponse>{
+        val rental = rentalService.getRentalById(id)
+        if(rental != null)
+            return ResponseEntity.ok(rental)
+        return ResponseEntity.notFound().build()
     }
 
     @PostMapping("/delete")

@@ -4,20 +4,22 @@ import com.example.storeRental.domain.CustomerModel
 import com.example.storeRental.domain.RentalDetailModel
 import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.service.CustomerService
+import com.example.storeRental.utils.responseClass.CusNameIdRespose
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 
-@Controller
+@RestController
 @RequestMapping("api/customer")
 class CustomerController(private val customerService: CustomerService){
 
     @GetMapping
     fun getAllCustomer(): ResponseEntity<List<CustomerModel>> {
         return ResponseEntity.ok().body(customerService.getAll())
+    }
+
+    @GetMapping("/{name}")
+    fun getByName(@PathVariable name:String):List<CusNameIdRespose>{
+        return customerService.getByName(name)
     }
 
     @PostMapping("/rents")

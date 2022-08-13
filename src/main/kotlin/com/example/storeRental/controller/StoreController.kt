@@ -25,6 +25,11 @@ class StoreController(private val storeService: StoreService) {
         return storeService.getAll()
     }
 
+    @GetMapping("/rented")
+    fun getAllRented():List<StoreModel>{
+        return storeService.getAllRented()
+    }
+
     @PostMapping
     fun addNewImage(@RequestParam storeId:Long, @RequestParam imgUrl:String):ResponseEntity<String>{
         storeService.setImage(storeId, imgUrl)
@@ -58,4 +63,5 @@ class StoreController(private val storeService: StoreService) {
     fun remove(@RequestParam storeId:Long){
         storeService.deleteById(storeId)
     }
+
 }

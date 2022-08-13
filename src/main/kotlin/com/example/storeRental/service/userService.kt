@@ -5,6 +5,7 @@ import com.example.storeRental.domain.UserModel
 import com.example.storeRental.repo.UserRepo
 import com.example.storeRental.utils.requestClass.UserLoginRequest
 import com.example.storeRental.utils.requestClass.UserRegisterRequest
+import com.example.storeRental.utils.responseClass.UserResponse
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Service
 
@@ -16,8 +17,9 @@ class UserService(private val userRepo: UserRepo):BaseSevice<UserModel, Long>{
             userRepo.save(model)
     }
 
-    override fun getById(id: Long): UserModel {
-        return userRepo.findById(id).orElse(null)
+    fun getUserById(id: Long): UserResponse {
+        val userRes = userRepo.findById(id).orElse(null)
+        return UserResponse(userRes.username, userRes.getEmail(), userRes.getHashPwd())
     }
 
     override fun deleteById(id: Long) {
@@ -54,6 +56,10 @@ class UserService(private val userRepo: UserRepo):BaseSevice<UserModel, Long>{
             return false
         }
         return false
+    }
+
+    override fun getById(id: Long): UserModel {
+        return userRepo.findById(id).orElse(null)
     }
 
 }

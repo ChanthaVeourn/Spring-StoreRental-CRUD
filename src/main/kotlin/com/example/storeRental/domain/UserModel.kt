@@ -19,4 +19,8 @@ class UserModel(
         hashPassword = hashedPws
     }
     fun getHashPwd() = hashPassword
+    fun getEmail() = email
+    fun setEmail(em:String) {
+        email = em
+    }
 }
