@@ -1,4 +1,4 @@
-package com.example.storeRental
+package com.example.storeRental.utils
 
 import org.springframework.security.crypto.bcrypt.BCrypt
 

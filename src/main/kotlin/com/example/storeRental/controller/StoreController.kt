@@ -33,7 +33,7 @@ class StoreController(private val storeService: StoreService) {
     }
 
     @PostMapping
-    fun addNewImage(@RequestParam storeId:Long, @RequestParam imgUrl:String):ResponseEntity<String>{
+    fun setNewImage(@RequestParam storeId:Long, @RequestParam imgUrl:String):ResponseEntity<String>{
         storeService.setImage(storeId, imgUrl)
         return ResponseEntity.status(201).build()
     }
@@ -46,6 +46,7 @@ class StoreController(private val storeService: StoreService) {
         }
         return ResponseEntity.badRequest().build()
     }
+
     @PutMapping("/update")
     fun updateStore(@RequestBody storeUpdateRequest: StoreUpdateRequest):ResponseEntity<StoreUpdateResponse>{
         if(storeService.update(storeUpdateRequest) != null )

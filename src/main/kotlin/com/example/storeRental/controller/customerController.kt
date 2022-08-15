@@ -1,9 +1,9 @@
 package com.example.storeRental.controller
 
 import com.example.storeRental.domain.CustomerModel
-import com.example.storeRental.domain.RentalDetailModel
 import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.service.CustomerService
+import com.example.storeRental.utils.projection.RentalDetailProjection
 import com.example.storeRental.utils.responseClass.CusNameIdRespose
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -36,8 +36,8 @@ class CustomerController(private val customerService: CustomerService){
     }
 
     @PostMapping("/rent-details")
-    fun getAllRentDetails(@RequestParam(required = true) rental_id:Long):ResponseEntity<List<RentalDetailModel>>{
-        return ResponseEntity.ok().body(customerService.getAllRentalDetails(rental_id))
+    fun getAllRentDetails(@RequestParam(required = true) rental_id:Long):ResponseEntity<List<RentalDetailProjection>>{
+        return ResponseEntity.ok().body(customerService.getAllRentalDetailsByRentalId(rental_id))
     }
 
     @PostMapping("/rent-store")
@@ -48,18 +48,10 @@ class CustomerController(private val customerService: CustomerService){
         return ResponseEntity.badRequest().build()
     }
 
-    @PostMapping("/remove-rent")
+    @DeleteMapping("/remove-rent")
     fun removeRental(@RequestParam cusId:Long, @RequestParam storeId:Long):ResponseEntity<String>{
         if(customerService.removeRentStoreByStoreId(cusId, storeId)){
             return ResponseEntity.accepted().build()
-        }
-        return ResponseEntity.notFound().build()
-    }
-
-    @GetMapping("/remove-rent")
-    fun removeRental():ResponseEntity<String>{
-        if(customerService.removeRentStoreByStoreId(3, 8)){
-            return ResponseEntity.accepted().body("removed")
         }
         return ResponseEntity.notFound().build()
     }

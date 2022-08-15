@@ -1,6 +1,5 @@
 package com.example.storeRental.controller
 
-import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.service.RentalService
 import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
 import com.example.storeRental.utils.responseClass.RentalResponse
@@ -50,4 +49,5 @@ class RentalController(private val rentalService: RentalService){
         val response = rentalService.changeCustomer(rentalId, cusId)!!
         return ResponseEntity.ok(response)
     }
+
 }

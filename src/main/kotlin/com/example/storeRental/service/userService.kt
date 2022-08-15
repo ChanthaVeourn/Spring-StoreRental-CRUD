@@ -1,6 +1,6 @@
 package com.example.storeRental.service
 
-import com.example.storeRental.EncryptPwd
+import com.example.storeRental.utils.EncryptPwd
 import com.example.storeRental.domain.UserModel
 import com.example.storeRental.repo.UserRepo
 import com.example.storeRental.utils.requestClass.UserLoginRequest
@@ -58,7 +58,7 @@ class UserService(private val userRepo: UserRepo):BaseSevice<UserModel, Long>{
         return false
     }
 
-    override fun getById(id: Long): UserModel {
+    override fun getById(id: Long): UserModel? {
         return userRepo.findById(id).orElse(null)
     }
 

@@ -8,6 +8,7 @@ import com.example.storeRental.repo.CustomerRepo
 import com.example.storeRental.repo.RentalDetailRepo
 import com.example.storeRental.repo.RentalRepo
 import com.example.storeRental.repo.StoreRepo
+import com.example.storeRental.utils.projection.RentalDetailProjection
 import com.example.storeRental.utils.responseClass.CusNameIdRespose
 import org.springframework.stereotype.Service
 
@@ -25,7 +26,7 @@ class CustomerService(
         customerRepo.save(model)
     }
 
-    override fun getById(id: Long): CustomerModel {
+    override fun getById(id: Long): CustomerModel? {
         return customerRepo.findById(id).orElse(null)
     }
 
@@ -69,9 +70,8 @@ class CustomerService(
         return customer.rentals
     }
 
-    fun getAllRentalDetails(rental_id:Long):List<RentalDetailModel>?{
-        val rentD = rentalRepo.findById(rental_id).orElse(null)
-            return rentD.rentalDetails
+    fun getAllRentalDetailsByRentalId(rental_id:Long):List<RentalDetailProjection>?{
+        return rentalDetailRepo.findByRentalId(rental_id)
     }
 
     fun getAllRentedStore(cusId: Long): List<StoreModel>? {

@@ -1,5 +1,6 @@
 package com.example.storeRental.repo
 
+import com.example.storeRental.domain.RentalModel
 import com.example.storeRental.domain.StoreModel
 import com.example.storeRental.utils.projection.CustomerNameAndId
 import org.springframework.data.jpa.repository.JpaRepository
@@ -26,6 +27,7 @@ interface CustomerRepo:JpaRepository<com.example.storeRental.domain.CustomerMode
           "Where customer.id = :cusId",
       nativeQuery = true)
     fun getRentalIdByStoreId(cusId:Long, storeId:Long):Long
+
     fun findByPhoneStartingWith(prefix:String):List<CustomerNameAndId>?
 
 }

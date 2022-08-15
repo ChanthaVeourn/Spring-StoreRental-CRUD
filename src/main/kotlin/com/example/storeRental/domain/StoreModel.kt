@@ -31,7 +31,7 @@ class StoreModel(
     var rented: Boolean = false
 
     @JsonIgnore
-    @OneToMany(mappedBy = "store", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     var rentalDetail:MutableList<RentalDetailModel>? = null
     var updatedDate:String? = null
 }

@@ -1,13 +1,9 @@
 package com.example.storeRental.controller
 
-import com.example.storeRental.domain.StoreModel
 import com.example.storeRental.domain.StoreTypeModel
 import com.example.storeRental.service.StoreTypeService
-import com.example.storeRental.utils.requestClass.StoreCreateRequest
 import com.example.storeRental.utils.requestClass.StoreTypeUpdateRequest
 import com.example.storeRental.utils.responseClass.StoreTypeResponse
-import org.springframework.boot.autoconfigure.session.StoreType
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -28,8 +23,11 @@ class StoreTypeController(private val storeTypeService: StoreTypeService) {
         return storeTypeService.getAll()
     }
     @GetMapping("/{id}")
-    fun getById(@PathVariable id:Long):StoreTypeModel{
-        return storeTypeService.getById(id)
+    fun getById(@PathVariable id:Long):ResponseEntity<StoreTypeModel>{
+        val res = storeTypeService.getById(id)
+        if(res != null)
+            return ResponseEntity.ok(res)
+        return ResponseEntity.notFound().build()
     }
 
     @PutMapping("/update")

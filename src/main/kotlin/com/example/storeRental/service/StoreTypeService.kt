@@ -17,7 +17,7 @@ class StoreTypeService(
         storeTypeRepo.save(model)
     }
 
-    override fun getById(id: Long): StoreTypeModel {
+    override fun getById(id: Long): StoreTypeModel? {
         return storeTypeRepo.findById(id).orElse(null)
     }
 

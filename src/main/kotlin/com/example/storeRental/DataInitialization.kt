@@ -2,6 +2,7 @@ package com.example.storeRental
 
 import com.example.storeRental.domain.*
 import com.example.storeRental.repo.*
+import com.example.storeRental.utils.EncryptPwd
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

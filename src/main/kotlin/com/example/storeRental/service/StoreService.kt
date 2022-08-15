@@ -10,7 +10,6 @@ import com.example.storeRental.utils.requestClass.StoreUpdateRequest
 import com.example.storeRental.utils.responseClass.StoreResponse
 import com.example.storeRental.utils.responseClass.StoreUpdateImgResponse
 import com.example.storeRental.utils.responseClass.StoreUpdateResponse
-import org.apache.catalina.Store
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -24,7 +23,7 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
         storeRepo.save(model)
     }
 
-    override fun getById(id: Long): StoreModel {
+    override fun getById(id: Long): StoreModel? {
         return storeRepo.findById(id).orElse(null)
     }
 
@@ -70,7 +69,7 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
 
     fun updateImage(storeId:Long, imgUrl:String):StoreUpdateImgResponse?{
         val store = getById(storeId)
-        val oldImg = store.img
+        val oldImg = store?.img
         if(store != null){
             store.img = null
             store.updatedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
@@ -107,4 +106,5 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
         }
         return null
     }
+
 }
