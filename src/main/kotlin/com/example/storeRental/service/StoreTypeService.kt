@@ -4,6 +4,7 @@ import com.example.storeRental.domain.StoreTypeModel
 import com.example.storeRental.repo.StoreTypeRepo
 import com.example.storeRental.utils.requestClass.StoreTypeUpdateRequest
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -32,7 +33,9 @@ class StoreTypeService(
         val storeType = storeTypeRepo.findById(storeUReq.id!!).orElse(null)
         if(storeType != null){
             storeType.typeName = storeUReq.typeName
-            storeType.createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
+            storeType.createdDate = LocalDate.parse(
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
+                DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
             storeTypeRepo.save(storeType)
             return storeType
         }

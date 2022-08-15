@@ -1,7 +1,9 @@
 package com.example.storeRental.controller
 
+import com.example.storeRental.domain.StoreModel
 import com.example.storeRental.domain.StoreTypeModel
 import com.example.storeRental.service.StoreTypeService
+import com.example.storeRental.utils.requestClass.StoreCreateRequest
 import com.example.storeRental.utils.requestClass.StoreTypeUpdateRequest
 import com.example.storeRental.utils.responseClass.StoreTypeResponse
 import org.springframework.boot.autoconfigure.session.StoreType

@@ -17,5 +17,8 @@ open class BaseModel (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     @Column(name = "createdDate")
-    var createdDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
+    var createdDate: LocalDate = LocalDate.parse(
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
+        DateTimeFormatter.ofPattern("dd-MMMM-yyyy")
+    )
 }

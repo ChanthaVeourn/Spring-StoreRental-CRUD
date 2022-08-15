@@ -1,5 +1,6 @@
 package com.example.storeRental.domain
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.persistence.*
@@ -17,5 +18,7 @@ class StoreImageModel(
     var store:StoreModel? = null
 
 ):BaseModel(){
-    override var createdDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
+    override var createdDate: LocalDate = LocalDate.parse(
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
+        DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
 }

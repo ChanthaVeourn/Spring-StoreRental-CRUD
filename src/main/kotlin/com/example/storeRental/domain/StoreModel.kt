@@ -9,10 +9,12 @@ import javax.persistence.*
 @Entity
 @Table(name = "store")
 class StoreModel(
+
     @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "StoreTypeID", referencedColumnName = "id")
     var storeType: StoreTypeModel,
+
     @JsonIgnore
     @OneToOne( fetch = FetchType.LAZY, mappedBy = "store", cascade = [CascadeType.ALL], orphanRemoval = true)
     var img: StoreImageModel? = null,

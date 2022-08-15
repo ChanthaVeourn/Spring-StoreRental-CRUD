@@ -2,6 +2,8 @@ package com.example.storeRental.controller
 
 import com.example.storeRental.domain.StoreModel
 import com.example.storeRental.service.StoreService
+import com.example.storeRental.service.StoreTypeService
+import com.example.storeRental.utils.requestClass.StoreCreateRequest
 import com.example.storeRental.utils.requestClass.StoreUpdateRequest
 import com.example.storeRental.utils.responseClass.StoreResponse
 import com.example.storeRental.utils.responseClass.StoreUpdateImgResponse
@@ -36,6 +38,14 @@ class StoreController(private val storeService: StoreService) {
         return ResponseEntity.status(201).build()
     }
 
+    @PostMapping("/create")
+    fun addNewStore(@RequestBody storeCreateRequest: StoreCreateRequest):ResponseEntity<StoreResponse>{
+        val res = storeService.createStore(storeCreateRequest)
+        if (res != null){
+            return ResponseEntity.status(201).body(res)
+        }
+        return ResponseEntity.badRequest().build()
+    }
     @PutMapping("/update")
     fun updateStore(@RequestBody storeUpdateRequest: StoreUpdateRequest):ResponseEntity<StoreUpdateResponse>{
         if(storeService.update(storeUpdateRequest) != null )

@@ -22,6 +22,14 @@ class CustomerController(private val customerService: CustomerService){
         return customerService.getByName(name)
     }
 
+    @GetMapping("/phone")
+    fun getByPhonePrefix(@RequestParam preNum:String):ResponseEntity<List<CusNameIdRespose>>{
+        val res = customerService.findByPhonePrefix(preNum)
+        if(res != null)
+            return ResponseEntity.ok(res)
+        return ResponseEntity.notFound().build()
+    }
+
     @PostMapping("/rents")
     fun getAllRentals(@RequestParam(value = "cusId", required = true) cusId:Long): ResponseEntity<List<RentalModel>> {
         return ResponseEntity.ok().body(customerService.getAllRental(cusId))

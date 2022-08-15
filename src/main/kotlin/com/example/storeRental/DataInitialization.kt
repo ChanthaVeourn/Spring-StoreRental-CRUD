@@ -54,11 +54,12 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         storeImageRepo.save(img1)
 
         val cus1 = CustomerModel(name = "bot", address = "btn", phone = "0465324")
-        val cus2 = CustomerModel(name = "asd", address = "fds", phone = "045656453")
-        val cus3 = CustomerModel(name = "bot", address = "bsdftn", phone = "0898675")
-        val cus4 =CustomerModel(name = "wre", address = "b2234tn", phone = "05645434")
-        val cus5 = CustomerModel(name = "kj", address = "dsf", phone = "04356354")
-        cusRepo.saveAll(listOf(cus1,cus2,cus3,cus4,cus5))
+        val cus2 = CustomerModel(name = "roman", address = "fds", phone = "045656453")
+        val cus3 = CustomerModel(name = "dodo", address = "bsdftn", phone = "0898675")
+        val cus4 =CustomerModel(name = "jack", address = "b2234tn", phone = "05645434")
+        val cus5 = CustomerModel(name = "bobo", address = "dsf", phone = "04356354")
+        val cus6 = CustomerModel(name = "robert", address = "pp", phone = "09856354")
+        cusRepo.saveAll(listOf(cus1,cus2,cus3,cus4,cus5, cus6))
 
         val rental1 = RentalModel(cus1) // 1cus -> many rentals
         val rental2 = RentalModel(cus1)

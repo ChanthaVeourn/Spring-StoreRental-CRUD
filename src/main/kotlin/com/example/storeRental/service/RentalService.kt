@@ -5,6 +5,7 @@ import com.example.storeRental.repo.RentalRepo
 import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
 import com.example.storeRental.utils.responseClass.RentalResponse
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -43,7 +44,7 @@ class RentalService(private val rentalRepo: RentalRepo,
         rentalList.stream().forEach {
             rent ->
             run {
-                rentalRes.add(RentalResponse(rent.id, rent.customer.id, rent.createdDate,rent.updatedDate))
+                rentalRes.add(RentalResponse(rent.id, rent.customer.id, rent.createdDate, rent.updatedDate))
             }
         }
         return rentalRes
@@ -90,11 +91,15 @@ class RentalService(private val rentalRepo: RentalRepo,
              val rentalResList = mutableListOf<RentalResponse>()
              //add wanted-rental to new-cus
              wantedRental.customer = newCus
-             wantedRental.updatedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
+             wantedRental.updatedDate = LocalDate.parse(
+                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
+                 DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
 
              ////add new-customer's rental to old-cus
              newCusRental.customer = oldCus
-             newCusRental.updatedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
+             newCusRental.updatedDate = LocalDate.parse(
+                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
+                 DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
 
              rentalRepo.saveAll(listOf(wantedRental, newCusRental))
 

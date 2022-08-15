@@ -96,5 +96,15 @@ class CustomerService(
         return false
     }
 
+    fun findByPhonePrefix(prefix:String):List<CusNameIdRespose>?{
+        val cusNameId = customerRepo.findByPhoneStartingWith(prefix)
+        if(cusNameId!!.isNotEmpty()) {
+            val cusResponse = mutableListOf<CusNameIdRespose>()
+            cusNameId.stream().forEach { cus -> run { cusResponse.add(CusNameIdRespose(cus.name, cus.id)) } }
+            return cusResponse
+        }
+        return null
+    }
+
 }
 

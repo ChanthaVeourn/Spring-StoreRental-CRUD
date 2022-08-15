@@ -5,10 +5,12 @@ import com.example.storeRental.domain.StoreImageModel
 import com.example.storeRental.domain.StoreModel
 import com.example.storeRental.repo.StoreImageRepo
 import com.example.storeRental.repo.StoreRepo
+import com.example.storeRental.utils.requestClass.StoreCreateRequest
 import com.example.storeRental.utils.requestClass.StoreUpdateRequest
 import com.example.storeRental.utils.responseClass.StoreResponse
 import com.example.storeRental.utils.responseClass.StoreUpdateImgResponse
 import com.example.storeRental.utils.responseClass.StoreUpdateResponse
+import org.apache.catalina.Store
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -33,8 +35,31 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
     fun getAllRented():List<StoreModel>{
         return storeRepo.findByRentedTrue()
     }
+
     override fun deleteById(id: Long) {
         storeRepo.deleteById(id)
+    }
+
+    fun createStore(storeCreateRequest: StoreCreateRequest):StoreResponse?{
+
+        val storeType = storeTypeService.getById(storeCreateRequest.typeId)
+        if(storeType != null){
+            val newStore = StoreModel(storeType = storeType,
+                unitPrice = storeCreateRequest.unitPrice,
+                floor = storeCreateRequest.floor)
+            storeRepo.save(newStore)
+            if(storeCreateRequest.imgUrl != null && storeCreateRequest.imgUrl != ""){
+                val newImg = StoreImageModel(imgUrl = storeCreateRequest.imgUrl, store = newStore)
+                storeImageRepo.save(newImg)
+
+            }
+            return StoreResponse(newStore.id,
+                newStore.unitPrice,
+                newStore.floor,
+                storeCreateRequest.typeId,
+                storeCreateRequest.imgUrl)
+        }
+        return null
     }
 
     fun setImage(storeId:Long, imgUrl:String){
@@ -50,8 +75,8 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
             store.img = null
             store.updatedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
             storeImageRepo.delete(oldImg!!)
-            val newStoreImg = StoreImageModel(imgUrl, store)
-            storeImageRepo.save(newStoreImg)
+            val newImg = StoreImageModel(imgUrl, store)
+            storeImageRepo.save(newImg)
             return StoreUpdateImgResponse(storeId, imgUrl, store.updatedDate)
         }
         return null

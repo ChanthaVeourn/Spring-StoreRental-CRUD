@@ -26,4 +26,6 @@ interface CustomerRepo:JpaRepository<com.example.storeRental.domain.CustomerMode
           "Where customer.id = :cusId",
       nativeQuery = true)
     fun getRentalIdByStoreId(cusId:Long, storeId:Long):Long
+    fun findByPhoneStartingWith(prefix:String):List<CustomerNameAndId>?
+
 }

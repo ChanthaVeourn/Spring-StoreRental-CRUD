@@ -2,6 +2,7 @@ package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.persistence.*
@@ -18,13 +19,17 @@ class RentalModel(
 ):BaseModel(){
 
     @Column(name = "rentDate")
-    override var createdDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
+    override var createdDate: LocalDate = LocalDate.parse(
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
+        DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental", cascade = [CascadeType.ALL], orphanRemoval = true)
     lateinit var rentalDetails:MutableList<RentalDetailModel>
 
     @Column(name = "updated_date")
-    var updatedDate: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm"))
+    var updatedDate: LocalDate = LocalDate.parse(
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
+        DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
 
 }

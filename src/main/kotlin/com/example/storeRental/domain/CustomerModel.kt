@@ -6,8 +6,11 @@ import javax.persistence.*
 @Entity
 @Table(name = "customer")
 class CustomerModel(
+    @Column(nullable = false, unique = true, length = 32)
     var name:String,
+    @Column(nullable = true, length = 128)
     var address:String?,
+    @Column(nullable = false, unique = true)
     var phone: String,
     ):BaseModel(){
     @JsonIgnore
