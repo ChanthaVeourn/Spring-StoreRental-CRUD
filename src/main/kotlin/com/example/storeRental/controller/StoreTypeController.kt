@@ -31,19 +31,16 @@ class StoreTypeController(private val storeTypeService: StoreTypeService) {
     }
 
     @PutMapping("/update")
-    fun updateStoreName(@RequestBody storeTypeUpdateRequest: StoreTypeUpdateRequest): StoreTypeResponse {
+    fun updateStoreName(@RequestBody storeTypeUpdateRequest: StoreTypeUpdateRequest):ResponseEntity<StoreTypeResponse> {
         val updatedStoreType = storeTypeService.update(storeTypeUpdateRequest)
-        return StoreTypeResponse(
-            updatedStoreType?.id,
-            updatedStoreType?.typeName,
-            updatedStoreType?.createdDate
-        )
+        if(updatedStoreType != null)
+            return ResponseEntity.accepted().body(updatedStoreType)
+        return ResponseEntity.notFound().build()
     }
 
     @PostMapping
     fun addStoreType(@RequestParam typeName:String):ResponseEntity<String>{
-        val st = StoreTypeModel(typeName)
-        storeTypeService.save(st)
+        storeTypeService.createStoreType(typeName)
        return ResponseEntity.status(201).body("CREATED")
     }
 

@@ -3,6 +3,8 @@ package com.example.storeRental.service
 import com.example.storeRental.domain.StoreTypeModel
 import com.example.storeRental.repo.StoreTypeRepo
 import com.example.storeRental.utils.requestClass.StoreTypeUpdateRequest
+import com.example.storeRental.utils.responseClass.StoreResponse
+import com.example.storeRental.utils.responseClass.StoreTypeResponse
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -29,7 +31,7 @@ class StoreTypeService(
         storeTypeRepo.deleteById(id)
     }
 
-   fun update(storeUReq: StoreTypeUpdateRequest):StoreTypeModel? {
+   fun update(storeUReq: StoreTypeUpdateRequest):StoreTypeResponse? {
         val storeType = storeTypeRepo.findById(storeUReq.id!!).orElse(null)
         if(storeType != null){
             storeType.typeName = storeUReq.typeName
@@ -37,9 +39,17 @@ class StoreTypeService(
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
                 DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
             storeTypeRepo.save(storeType)
-            return storeType
+            return StoreTypeResponse(
+                storeType.id,
+                storeType.typeName,
+                storeType.createdDate
+            )
         }
        return null
     }
 
+    fun createStoreType(typeName:String){
+        val st = StoreTypeModel(typeName)
+        storeTypeRepo.save(st)
+    }
 }
