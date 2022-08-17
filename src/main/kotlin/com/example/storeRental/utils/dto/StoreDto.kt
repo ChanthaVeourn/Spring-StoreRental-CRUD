@@ -1,6 +1,6 @@
-package com.example.storeRental.utils.responseClass
+package com.example.storeRental.utils.dto
 
-data class StoreResponse (
+data class StoreDto (
     val id:Long?,
     val unitPrice:Double?,
     val floor:String?,

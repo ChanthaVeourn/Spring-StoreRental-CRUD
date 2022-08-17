@@ -8,28 +8,20 @@ import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 @Entity
-@Table(name = "rental")
-class RentalModel(
+class Rental(
 
     @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "CusId", referencedColumnName = "id")
-    var customer: CustomerModel
-
-):BaseModel(){
-
-    @Column(name = "rentDate")
-    override var createdDate: LocalDate = LocalDate.parse(
-        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
-        DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
+    var customer: Customer,
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "rental", cascade = [CascadeType.ALL], orphanRemoval = true)
-    lateinit var rentalDetails:MutableList<RentalDetailModel>
+    var rentalDetails:MutableList<RentalDetail>?=null,
 
     @Column(name = "updated_date")
     var updatedDate: LocalDate = LocalDate.parse(
         LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
         DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
 
-}
+):BaseModel()

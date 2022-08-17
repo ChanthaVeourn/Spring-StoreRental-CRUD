@@ -1,13 +1,13 @@
 package com.example.storeRental.controller
 
-import com.example.storeRental.domain.UserModel
 import com.example.storeRental.utils.requestClass.UserLoginRequest
 import com.example.storeRental.utils.requestClass.UserRegisterRequest
 import com.example.storeRental.service.UserService
-import com.example.storeRental.utils.responseClass.UserResponse
+import com.example.storeRental.utils.dto.UserDto
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletResponse
 
 
 @Controller
@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.*
 class UserController(private var userService: UserService) {
 
     @GetMapping("/{id}")
-    fun getUserById(@PathVariable id:Long):ResponseEntity<UserResponse>{
+    fun getUserById(@PathVariable id:Long):ResponseEntity<UserDto>{
         val user =  userService.getUserById(id)
         return ResponseEntity.ok().body(user)
     }
 
     @GetMapping
-    fun getAllUSer():ResponseEntity<Iterable<UserModel>>{
-        return ResponseEntity.ok().body(userService.getAllUser())
+    fun getAllUSer(@CookieValue("jwt") jwt: String?):ResponseEntity<Any>{
+        val res = userService.getAllUser(jwt)
+        if(res !is String)
+            return ResponseEntity.ok(res)
+        return ResponseEntity.status(401).body(res)
     }
 
     @PostMapping("/register")
@@ -33,11 +36,11 @@ class UserController(private var userService: UserService) {
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody userResource: UserLoginRequest):ResponseEntity<String>{
-        if(userService.login(userResource)){
-            return ResponseEntity.ok().body("Logged-in User")
-        }
-        return ResponseEntity.status(403).body("Invalid or incorrect email or password")
+    fun login(@RequestBody userResource: UserLoginRequest, response: HttpServletResponse):ResponseEntity<Any>{
+
+        val res = userService.login(userResource, response)
+        res?: return ResponseEntity.status(403).body("Invalid or incorrect email or password")
+        return ResponseEntity.ok(res)
     }
 
 }

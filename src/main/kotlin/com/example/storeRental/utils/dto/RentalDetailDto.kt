@@ -1,8 +1,8 @@
-package com.example.storeRental.utils.projection
+package com.example.storeRental.utils.dto
 
 import java.time.LocalDate
 
-data class RentalDetailProjection (
+data class RentalDetailDto (
     val rentalId:Long,
     val storeId:Long,
     val unitPrice:Double,

@@ -1,8 +1,6 @@
 package com.example.storeRental.repo
 
-import com.example.storeRental.domain.RentalModel
-import com.example.storeRental.domain.StoreModel
-import com.example.storeRental.utils.projection.CustomerNameAndId
+import com.example.storeRental.utils.dto.CustomerDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
@@ -10,9 +8,9 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface CustomerRepo:JpaRepository<com.example.storeRental.domain.CustomerModel, Long>, JpaSpecificationExecutor<com.example.storeRental.domain.CustomerModel> {
+interface CustomerRepo:JpaRepository<com.example.storeRental.domain.Customer, Long>, JpaSpecificationExecutor<com.example.storeRental.domain.Customer> {
 
-    fun findByName(name:String): Optional<List<CustomerNameAndId>>
+    fun findByName(name:String): Optional<List<CustomerDto>>
 
     @Query("Select store_id from rental_detail" +
             " inner join (SELECT rental.id as rentalId FROM rental INNER JOIN customer ON rental.cus_id = customer.id " +
@@ -28,6 +26,6 @@ interface CustomerRepo:JpaRepository<com.example.storeRental.domain.CustomerMode
       nativeQuery = true)
     fun getRentalIdByStoreId(cusId:Long, storeId:Long):Long
 
-    fun findByPhoneStartingWith(prefix:String):List<CustomerNameAndId>?
+    fun findByPhoneStartingWith(prefix:String):List<CustomerDto>?
 
 }

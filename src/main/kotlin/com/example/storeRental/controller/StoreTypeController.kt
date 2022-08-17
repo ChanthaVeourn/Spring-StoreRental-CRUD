@@ -1,9 +1,9 @@
 package com.example.storeRental.controller
 
-import com.example.storeRental.domain.StoreTypeModel
+import com.example.storeRental.domain.StoreType
 import com.example.storeRental.service.StoreTypeService
 import com.example.storeRental.utils.requestClass.StoreTypeUpdateRequest
-import com.example.storeRental.utils.responseClass.StoreTypeResponse
+import com.example.storeRental.utils.dto.StoreTypeDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController
 class StoreTypeController(private val storeTypeService: StoreTypeService) {
 
     @GetMapping
-    fun getAll():List<StoreTypeModel>{
+    fun getAll():List<StoreType>{
         return storeTypeService.getAll()
     }
     @GetMapping("/{id}")
-    fun getById(@PathVariable id:Long):ResponseEntity<StoreTypeModel>{
+    fun getById(@PathVariable id:Long):ResponseEntity<StoreType>{
         val res = storeTypeService.getById(id)
         if(res != null)
             return ResponseEntity.ok(res)
@@ -31,7 +31,7 @@ class StoreTypeController(private val storeTypeService: StoreTypeService) {
     }
 
     @PutMapping("/update")
-    fun updateStoreName(@RequestBody storeTypeUpdateRequest: StoreTypeUpdateRequest):ResponseEntity<StoreTypeResponse> {
+    fun updateStoreName(@RequestBody storeTypeUpdateRequest: StoreTypeUpdateRequest):ResponseEntity<StoreTypeDto> {
         val updatedStoreType = storeTypeService.update(storeTypeUpdateRequest)
         if(updatedStoreType != null)
             return ResponseEntity.accepted().body(updatedStoreType)

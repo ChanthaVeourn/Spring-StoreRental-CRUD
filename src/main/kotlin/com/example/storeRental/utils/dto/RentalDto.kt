@@ -1,8 +1,8 @@
-package com.example.storeRental.utils.responseClass
+package com.example.storeRental.utils.dto
 
 import java.time.LocalDate
 
-data class RentalResponse(
+data class RentalDto(
     val id: Long?,
     val cus_id: Long?,
     val created: LocalDate?,

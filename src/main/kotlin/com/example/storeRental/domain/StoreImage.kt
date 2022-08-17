@@ -7,18 +7,13 @@ import javax.persistence.*
 
 
 @Entity
-@Table(name = "StoreImage")
-class StoreImageModel(
+class StoreImage(
 
     @Column(nullable = false, length = 128)
     var imgUrl: String,
 
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "storeId")
-    var store:StoreModel? = null
+    var store:Store? = null
 
-):BaseModel(){
-    override var createdDate: LocalDate = LocalDate.parse(
-        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
-        DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
-}
+):BaseModel()

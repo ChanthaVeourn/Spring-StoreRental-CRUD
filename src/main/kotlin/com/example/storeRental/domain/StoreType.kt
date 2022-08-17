@@ -8,11 +8,10 @@ import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
-@Table(name = "storetype")
-class StoreTypeModel(
+class StoreType(
     var typeName:String,
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REFRESH], mappedBy = "storeType")
-    var stores:MutableList<StoreModel>? = null
+    var stores:MutableList<Store>? = null
 
 ):BaseModel()

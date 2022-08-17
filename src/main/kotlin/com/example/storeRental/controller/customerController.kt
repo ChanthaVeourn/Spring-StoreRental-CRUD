@@ -1,10 +1,11 @@
 package com.example.storeRental.controller
 
-import com.example.storeRental.domain.CustomerModel
-import com.example.storeRental.domain.RentalModel
+import com.example.storeRental.domain.Customer
+import com.example.storeRental.domain.Rental
 import com.example.storeRental.service.CustomerService
-import com.example.storeRental.utils.projection.RentalDetailProjection
-import com.example.storeRental.utils.responseClass.CusNameIdRespose
+import com.example.storeRental.utils.dto.CustomerDto
+import com.example.storeRental.utils.dto.RentalDetailDto
+import com.example.storeRental.utils.dto.CustomerNameIdDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -13,17 +14,17 @@ import org.springframework.web.bind.annotation.*
 class CustomerController(private val customerService: CustomerService){
 
     @GetMapping
-    fun getAllCustomer(): ResponseEntity<List<CustomerModel>> {
+    fun getAllCustomer(): ResponseEntity<List<Customer>> {
         return ResponseEntity.ok().body(customerService.getAll())
     }
 
     @GetMapping("/{name}")
-    fun getByName(@PathVariable name:String):List<CusNameIdRespose>{
+    fun getByName(@PathVariable name:String):List<CustomerDto>{
         return customerService.getByName(name)
     }
 
     @GetMapping("/phone")
-    fun getByPhonePrefix(@RequestParam preNum:String):ResponseEntity<List<CusNameIdRespose>>{
+    fun getByPhonePrefix(@RequestParam preNum:String):ResponseEntity<List<CustomerDto>>{
         val res = customerService.findByPhonePrefix(preNum)
         if(res != null)
             return ResponseEntity.ok(res)
@@ -31,12 +32,12 @@ class CustomerController(private val customerService: CustomerService){
     }
 
     @PostMapping("/rents")
-    fun getAllRentals(@RequestParam(value = "cusId", required = true) cusId:Long): ResponseEntity<List<RentalModel>> {
+    fun getAllRentals(@RequestParam(value = "cusId", required = true) cusId:Long): ResponseEntity<List<Rental>> {
         return ResponseEntity.ok().body(customerService.getAllRental(cusId))
     }
 
     @PostMapping("/rent-details")
-    fun getAllRentDetails(@RequestParam(required = true) rental_id:Long):ResponseEntity<List<RentalDetailProjection>>{
+    fun getAllRentDetails(@RequestParam(required = true) rental_id:Long):ResponseEntity<List<RentalDetailDto>>{
         return ResponseEntity.ok().body(customerService.getAllRentalDetailsByRentalId(rental_id))
     }
 

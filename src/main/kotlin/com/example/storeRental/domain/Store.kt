@@ -2,22 +2,20 @@ package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
-@Table(name = "store")
-class StoreModel(
+class Store(
 
     @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "StoreTypeID", referencedColumnName = "id")
-    var storeType: StoreTypeModel,
+    var storeType: StoreType,
 
     @JsonIgnore
     @OneToOne( fetch = FetchType.LAZY, mappedBy = "store", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var img: StoreImageModel? = null,
+    var img: StoreImage? = null,
 
     @Column(nullable = false)
     var unitPrice:Double,
@@ -25,13 +23,12 @@ class StoreModel(
     @Column(nullable = false, length = 16)
     var floor:String,
 
-):BaseModel(){
-
     @Column(name = "rentedStatus")
-    var rented: Boolean = false
+    var rented: Boolean = false,
 
     @JsonIgnore
     @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    var rentalDetail:MutableList<RentalDetailModel>? = null
-    var updatedDate:String? = null
-}
+    var rentalDetail:MutableList<RentalDetail>? = null,
+
+    var updatedDate:LocalDate? = null
+    ):BaseModel()

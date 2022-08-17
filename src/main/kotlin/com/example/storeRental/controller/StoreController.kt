@@ -1,13 +1,12 @@
 package com.example.storeRental.controller
 
-import com.example.storeRental.domain.StoreModel
+import com.example.storeRental.domain.Store
 import com.example.storeRental.service.StoreService
-import com.example.storeRental.service.StoreTypeService
 import com.example.storeRental.utils.requestClass.StoreCreateRequest
 import com.example.storeRental.utils.requestClass.StoreUpdateRequest
-import com.example.storeRental.utils.responseClass.StoreResponse
-import com.example.storeRental.utils.responseClass.StoreUpdateImgResponse
-import com.example.storeRental.utils.responseClass.StoreUpdateResponse
+import com.example.storeRental.utils.dto.StoreDto
+import com.example.storeRental.utils.dto.StoreUpdateImgDto
+import com.example.storeRental.utils.dto.StoreUpdateDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController
 class StoreController(private val storeService: StoreService) {
 
     @GetMapping
-    fun getAllStore():List<StoreModel>{
+    fun getAllStore():List<Store>{
         return storeService.getAll()
     }
 
     @GetMapping("/rented")
-    fun getAllRented():List<StoreModel>{
+    fun getAllRented():List<Store>{
         return storeService.getAllRented()
     }
 
@@ -39,23 +38,21 @@ class StoreController(private val storeService: StoreService) {
     }
 
     @PostMapping("/create")
-    fun addNewStore(@RequestBody storeCreateRequest: StoreCreateRequest):ResponseEntity<StoreResponse>{
+    fun addNewStore(@RequestBody storeCreateRequest: StoreCreateRequest):ResponseEntity<StoreDto>{
         val res = storeService.createStore(storeCreateRequest)
-        if (res != null){
-            return ResponseEntity.status(201).body(res)
-        }
-        return ResponseEntity.badRequest().build()
+        res?: return ResponseEntity.badRequest().build()
+        return ResponseEntity.status(201).body(res)
     }
 
     @PutMapping("/update")
-    fun updateStore(@RequestBody storeUpdateRequest: StoreUpdateRequest):ResponseEntity<StoreUpdateResponse>{
-        if(storeService.update(storeUpdateRequest) != null )
-            return ResponseEntity.accepted().body(storeService.update(storeUpdateRequest))
-        return ResponseEntity.badRequest().build()
+    fun updateStore(@RequestBody storeUpdateRequest: StoreUpdateRequest):ResponseEntity<StoreUpdateDto>{
+        val res = storeService.update(storeUpdateRequest)
+        res?: return ResponseEntity.badRequest().build()
+        return ResponseEntity.accepted().body(res)
     }
 
     @PutMapping("/update-type")
-    fun updateType(@RequestParam storeId:Long, @RequestParam typeId:Long):ResponseEntity<StoreResponse>{
+    fun updateType(@RequestParam storeId:Long, @RequestParam typeId:Long):ResponseEntity<StoreDto>{
        val response = storeService.updateType(storeId, typeId)
         if(response != null)
             return ResponseEntity.accepted().body(storeService.updateType(storeId, typeId)!!)
@@ -63,7 +60,7 @@ class StoreController(private val storeService: StoreService) {
     }
 
     @PutMapping("/update-image")
-    fun updateImage(@RequestParam storeId:Long, @RequestParam imgUrl:String):ResponseEntity<StoreUpdateImgResponse>{
+    fun updateImage(@RequestParam storeId:Long, @RequestParam imgUrl:String):ResponseEntity<StoreUpdateImgDto>{
         val response = storeService.updateImage(storeId, imgUrl)
         if(response != null)
             return ResponseEntity.accepted().body(response)

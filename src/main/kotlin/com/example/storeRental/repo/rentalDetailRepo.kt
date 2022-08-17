@@ -1,12 +1,12 @@
 package com.example.storeRental.repo
 
-import com.example.storeRental.domain.RentalDetailModel
-import com.example.storeRental.utils.projection.RentalDetailProjection
+import com.example.storeRental.domain.RentalDetail
+import com.example.storeRental.utils.dto.RentalDetailDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RentalDetailRepo: JpaRepository<RentalDetailModel, Long> {
-    fun findByRentalId(id:Long):List<RentalDetailProjection>
-    fun findByStoreId(id:Long):List<RentalDetailProjection>
+interface RentalDetailRepo: JpaRepository<RentalDetail, Long> {
+    fun findByRentalId(id:Long):List<RentalDetailDto>
+    fun findByStoreId(id:Long):List<RentalDetailDto>
 }

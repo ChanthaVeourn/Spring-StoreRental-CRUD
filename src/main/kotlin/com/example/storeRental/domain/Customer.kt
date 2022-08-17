@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
-@Table(name = "customer")
-class CustomerModel(
+class Customer(
     @Column(nullable = false, unique = true, length = 32)
     var name:String,
     @Column(nullable = true, length = 128)
     var address:String?,
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 16)
     var phone: String,
-    ):BaseModel(){
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true, mappedBy = "customer")
-    lateinit var rentals: MutableList<RentalModel>
-}
+    var rentals: MutableList<Rental>?=null
+    ):BaseModel()

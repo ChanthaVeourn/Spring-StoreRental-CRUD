@@ -11,7 +11,7 @@ import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-open class BaseModel (
+class BaseModel (
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

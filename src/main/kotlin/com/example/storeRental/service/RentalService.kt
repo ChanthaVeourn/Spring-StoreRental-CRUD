@@ -1,9 +1,10 @@
 package com.example.storeRental.service
 
-import com.example.storeRental.domain.RentalModel
+import com.example.storeRental.domain.Rental
 import com.example.storeRental.repo.RentalRepo
 import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
-import com.example.storeRental.utils.responseClass.RentalResponse
+import com.example.storeRental.utils.dto.RentalDto
+import com.example.storeRental.utils.responseClass.ResponseData
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -12,20 +13,20 @@ import java.time.format.DateTimeFormatter
 @Service
 class RentalService(private val rentalRepo: RentalRepo,
                     private val customerService: CustomerService
-                    ):BaseSevice<RentalModel, Long>
+                    ):BaseSevice<Rental, Long>
 {
-    override fun save(model: RentalModel) {
+    override fun save(model: Rental) {
         rentalRepo.save(model)
     }
 
-    fun saveAllRental(rentals: List<RentalModel>){
+    fun saveAllRental(rentals: List<Rental>){
         rentalRepo.saveAll(rentals)
     }
 
-    fun getRentalById(id: Long): RentalResponse? {
+    fun getRentalById(id: Long): RentalDto? {
         val rental = rentalRepo.findById(id).orElse(null)
         if(rental != null)
-            return RentalResponse(rental.id,rental.customer.id,rental.createdDate,rental.createdDate)
+            return RentalDto(rental.id,rental.customer.id,rental.createdDate,rental.createdDate)
         return null
     }
 
@@ -38,20 +39,20 @@ class RentalService(private val rentalRepo: RentalRepo,
       return false
     }
 
-    fun findAllRental():List<RentalResponse>?{
+    fun findAllRental():ResponseData?{
         val rentalList = rentalRepo.findAll()
-        val rentalRes = mutableListOf<RentalResponse>()
+        val rentalRes = mutableListOf<RentalDto>()
         rentalList.stream().forEach {
             rent ->
             run {
-                rentalRes.add(RentalResponse(rent.id, rent.customer.id, rent.createdDate, rent.updatedDate))
+                rentalRes.add(RentalDto(rent.id, rent.customer.id, rent.createdDate, rent.updatedDate))
             }
         }
-        return rentalRes
+        return  ResponseData(statusCode = 200,data = rentalRes.toList())
     }
 
     //change customer (old-cus remove rental, new-cus get old-cus's rental)
-    fun changeCustomer(rentalId:Long, cusId:Long):RentalResponse?{
+    fun changeCustomer(rentalId:Long, cusId:Long): RentalDto?{
 
         val rental = getById(rentalId)
         val newCus = customerService.getById(cusId)
@@ -62,13 +63,13 @@ class RentalService(private val rentalRepo: RentalRepo,
             rental.customer = newCus
             rentalRepo.save(rental)
 
-            newCus.rentals.add(rental)
-            oldCus.rentals.remove(rental)
+            newCus.rentals?.add(rental)
+            oldCus.rentals?.remove(rental)
 
             customerService.save(newCus)
             customerService.save(oldCus)
 
-            return RentalResponse(
+            return RentalDto(
                 id = rental.id,
                 cus_id = rental.customer.id,
                 updated = rental.updatedDate,
@@ -79,15 +80,16 @@ class RentalService(private val rentalRepo: RentalRepo,
     }
 
     // in case two customer exchange store
-     fun exchangeRental(rentalExchangeStoreRequest: RentalExchangeStoreRequest):List<RentalResponse>? {
+     fun exchangeRental(rentalExchangeStoreRequest: RentalExchangeStoreRequest):List<RentalDto>? {
 
-        val wantedRental = getById(rentalExchangeStoreRequest.wanted_rental_id)?:null
+        val wantedRental = getById(rentalExchangeStoreRequest.wanted_rental_id)
+
         if(wantedRental != null) {
 
              val newCus = customerService.getById(rentalExchangeStoreRequest.cus_id)
              val newCusRental= getById(rentalExchangeStoreRequest.cus_rental_id)
              val oldCus = wantedRental.customer
-             val rentalResList = mutableListOf<RentalResponse>()
+             val rentalResList = mutableListOf<RentalDto>()
              //add wanted-rental to new-cus
              wantedRental.customer = newCus!!
              wantedRental.updatedDate = LocalDate.parse(
@@ -103,19 +105,19 @@ class RentalService(private val rentalRepo: RentalRepo,
              rentalRepo.saveAll(listOf(wantedRental, newCusRental))
 
              //remove rental from new-cus
-             newCus?.rentals.remove(newCusRental)
+             newCus.rentals?.remove(newCusRental)
 
              //remove rental from old-cus
-             oldCus.rentals.remove(wantedRental)
+             oldCus.rentals?.remove(wantedRental)
 
              customerService.save(oldCus)
-             customerService.save(newCus!!)
+             customerService.save(newCus)
 
              val exchangedRentalsList = listOf(wantedRental, newCusRental)
              exchangedRentalsList.stream().forEach { rental->
                  run {
                      rentalResList.add(
-                         RentalResponse(
+                         RentalDto(
                              rental?.id, rental?.customer?.id, rental?.createdDate, rental?.updatedDate
                          )
                      )
@@ -131,7 +133,7 @@ class RentalService(private val rentalRepo: RentalRepo,
         rentalRepo.deleteById(id)
     }
 
-    override fun getById(id: Long): RentalModel? {
+    override fun getById(id: Long): Rental? {
         return rentalRepo.findById(id).orElse(null)
     }
 }
