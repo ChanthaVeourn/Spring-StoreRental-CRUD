@@ -2,7 +2,7 @@ package com.example.storeRental.controller
 
 import com.example.storeRental.service.RentalService
 import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
-import com.example.storeRental.utils.dto.RentalDto
+import com.example.storeRental.dto.RentalDto
 import com.example.storeRental.utils.responseClass.ResponseData
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

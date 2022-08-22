@@ -3,7 +3,7 @@ package com.example.storeRental.service
 import com.example.storeRental.domain.StoreType
 import com.example.storeRental.repo.StoreTypeRepo
 import com.example.storeRental.utils.requestClass.StoreTypeUpdateRequest
-import com.example.storeRental.utils.dto.StoreTypeDto
+import com.example.storeRental.dto.StoreTypeDto
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime

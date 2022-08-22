@@ -1,4 +1,4 @@
-package com.example.storeRental.utils.dto
+package com.example.storeRental.dto
 
 class StoreUpdateDto(
     val id: Long?,

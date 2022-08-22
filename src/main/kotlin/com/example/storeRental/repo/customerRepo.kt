@@ -1,6 +1,6 @@
 package com.example.storeRental.repo
 
-import com.example.storeRental.utils.dto.CustomerDto
+import com.example.storeRental.dto.CustomerDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
@@ -12,18 +12,21 @@ interface CustomerRepo:JpaRepository<com.example.storeRental.domain.Customer, Lo
 
     fun findByName(name:String): Optional<List<CustomerDto>>
 
-    @Query("Select store_id from rental_detail" +
-            " inner join (SELECT rental.id as rentalId FROM rental INNER JOIN customer ON rental.cus_id = customer.id " +
-            "WHERE customer.id = :cusId) as cusRent" +
-            " on rental_detail.rental_id = cusRent.rentalId",
-          nativeQuery = true
+    @Query("select store_id from customer c " +
+            "join rental r on c.id = r.cus_id " +
+            "join rental_detail rd on r.id = rd.rental_id " +
+            "join store s on rd.store_id = s.id " +
+            "where c.id = :cusId",
+            nativeQuery = true
     )
-    fun getRentedStoreIDs(cusId: Long):List<Long>
+      fun getRentedStoreIDs(cusId: Long):List<Long>
 
-    @Query("Select rentStore.rental_id From customer Inner Join (select * from rental inner join rental_detail On rental.id = rental_detail.rental_id " +
-          "Where rental_detail.store_id = :storeId) as rentStore on customer.id = rentStore.cus_Id " +
-          "Where customer.id = :cusId",
-      nativeQuery = true)
+    @Query("select rental_id from customer c "+
+            "join rental r on c.id = r.cus_id" +
+            "join rental_detail rd on r.id = rd.rental_id" +
+            "join store s on s.id = rd.store_id" +
+            "where store.id = :storeId and customer.id = :cusId",
+            nativeQuery = true)
     fun getRentalIdByStoreId(cusId:Long, storeId:Long):Long
 
     fun findByPhoneStartingWith(prefix:String):List<CustomerDto>?

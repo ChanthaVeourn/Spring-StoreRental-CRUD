@@ -3,7 +3,7 @@ package com.example.storeRental.controller
 import com.example.storeRental.domain.StoreType
 import com.example.storeRental.service.StoreTypeService
 import com.example.storeRental.utils.requestClass.StoreTypeUpdateRequest
-import com.example.storeRental.utils.dto.StoreTypeDto
+import com.example.storeRental.dto.StoreTypeDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -31,14 +31,14 @@ class StoreTypeController(private val storeTypeService: StoreTypeService) {
     }
 
     @PutMapping("/update")
-    fun updateStoreName(@RequestBody storeTypeUpdateRequest: StoreTypeUpdateRequest):ResponseEntity<StoreTypeDto> {
+    fun updateStoreTypeName(@RequestBody storeTypeUpdateRequest: StoreTypeUpdateRequest):ResponseEntity<StoreTypeDto> {
         val updatedStoreType = storeTypeService.update(storeTypeUpdateRequest)
         if(updatedStoreType != null)
             return ResponseEntity.accepted().body(updatedStoreType)
         return ResponseEntity.notFound().build()
     }
 
-    @PostMapping
+    @PostMapping("/create")
     fun addStoreType(@RequestParam typeName:String):ResponseEntity<String>{
         storeTypeService.createStoreType(typeName)
        return ResponseEntity.status(201).body("CREATED")

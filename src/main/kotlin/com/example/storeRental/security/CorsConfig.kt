@@ -13,8 +13,4 @@ class CorsConfig:WebMvcConfigurer {
             .allowedOrigins("localhost://8080","localhost://3000")
             .allowCredentials(true)
     }
-
-
-
-
 }

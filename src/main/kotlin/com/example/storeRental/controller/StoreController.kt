@@ -4,9 +4,9 @@ import com.example.storeRental.domain.Store
 import com.example.storeRental.service.StoreService
 import com.example.storeRental.utils.requestClass.StoreCreateRequest
 import com.example.storeRental.utils.requestClass.StoreUpdateRequest
-import com.example.storeRental.utils.dto.StoreDto
-import com.example.storeRental.utils.dto.StoreUpdateImgDto
-import com.example.storeRental.utils.dto.StoreUpdateDto
+import com.example.storeRental.dto.StoreDto
+import com.example.storeRental.dto.StoreUpdateImgDto
+import com.example.storeRental.dto.StoreUpdateDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class StoreController(private val storeService: StoreService) {
 
     @GetMapping
-    fun getAllStore():List<Store>{
+    fun getAllStore():List<StoreDto>{
         return storeService.getAll()
     }
 
@@ -31,7 +31,17 @@ class StoreController(private val storeService: StoreService) {
         return storeService.getAllRented()
     }
 
-    @PostMapping
+    @GetMapping("/with-img")
+    fun getStoresWithImage():List<StoreDto>{
+        return storeService.getStoreWithImage()
+    }
+
+    @GetMapping("/no-img")
+    fun getStoresNoImage():List<StoreDto>{
+        return storeService.getStoreNoImage()
+    }
+
+    @PostMapping("/set-image")
     fun setNewImage(@RequestParam storeId:Long, @RequestParam imgUrl:String):ResponseEntity<String>{
         storeService.setImage(storeId, imgUrl)
         return ResponseEntity.status(201).build()
@@ -61,7 +71,9 @@ class StoreController(private val storeService: StoreService) {
 
     @PutMapping("/update-image")
     fun updateImage(@RequestParam storeId:Long, @RequestParam imgUrl:String):ResponseEntity<StoreUpdateImgDto>{
-        val response = storeService.updateImage(storeId, imgUrl)
+        val store = storeService.getById(storeId)
+
+        val response = storeService.updateImage(store!!, imgUrl)
         if(response != null)
             return ResponseEntity.accepted().body(response)
         return ResponseEntity.badRequest().build()

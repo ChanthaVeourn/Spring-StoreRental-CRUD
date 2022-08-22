@@ -8,8 +8,8 @@ import com.example.storeRental.repo.CustomerRepo
 import com.example.storeRental.repo.RentalDetailRepo
 import com.example.storeRental.repo.RentalRepo
 import com.example.storeRental.repo.StoreRepo
-import com.example.storeRental.utils.dto.CustomerDto
-import com.example.storeRental.utils.dto.RentalDetailDto
+import com.example.storeRental.dto.CustomerDto
+import com.example.storeRental.dto.RentalDetailDto
 import org.springframework.stereotype.Service
 
 
@@ -87,8 +87,8 @@ class CustomerService(
 
         if(customer != null && store != null ){
             val rentalId = customerRepo.getRentalIdByStoreId(customerId, storeId)
-            val rental = customer.rentals?.first { it.id == rentalId }
-            customer.rentals?.remove(rental)
+            val rental = customer.rentals.first { it.id == rentalId }
+            customer.rentals.remove(rental)
             customerRepo.save(customer)
             store.rented = false
             storeRepo.save(store)

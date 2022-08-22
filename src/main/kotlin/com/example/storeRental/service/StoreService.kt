@@ -7,9 +7,9 @@ import com.example.storeRental.repo.StoreImageRepo
 import com.example.storeRental.repo.StoreRepo
 import com.example.storeRental.utils.requestClass.StoreCreateRequest
 import com.example.storeRental.utils.requestClass.StoreUpdateRequest
-import com.example.storeRental.utils.dto.StoreDto
-import com.example.storeRental.utils.dto.StoreUpdateImgDto
-import com.example.storeRental.utils.dto.StoreUpdateDto
+import com.example.storeRental.dto.StoreDto
+import com.example.storeRental.dto.StoreUpdateImgDto
+import com.example.storeRental.dto.StoreUpdateDto
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -27,8 +27,8 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
         return storeRepo.findById(id).orElse(null)
     }
 
-    fun getAll():List<Store>{
-        return storeRepo.findAll()
+    fun getAll():List<StoreDto>{
+        return storeRepo.findStoresBy()
     }
 
     fun getAllRented():List<Store>{
@@ -65,22 +65,21 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
     fun setImage(storeId:Long, imgUrl:String){
         val store = storeRepo.findById(storeId).orElse(null)
         val newImg = StoreImage(imgUrl,store)
-        storeImageRepo.save(newImg)
+        store.img = newImg
+        storeRepo.save(store)
     }
 
-    fun updateImage(storeId:Long, imgUrl:String): StoreUpdateImgDto?{
-        val store = getById(storeId)
-        val oldImg = store?.img
+    fun updateImage(store:Store?, imgUrl:String): StoreUpdateImgDto?{
 
+        val oldImg = store?.img
         if(store != null){
-            store.img = null
             store.updatedDate = LocalDate.parse(
-                LocalDate.now().toString(),
+                LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
                 DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
-            storeImageRepo.delete(oldImg!!)
             val newImg = StoreImage(imgUrl, store)
-            storeImageRepo.save(newImg)
-            return StoreUpdateImgDto(storeId, imgUrl, store.updatedDate)
+            store.img = newImg
+            storeRepo.save(store)
+            return StoreUpdateImgDto(store.id, imgUrl, store.updatedDate)
         }
         return null
     }
@@ -112,4 +111,11 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
         return null
     }
 
+    fun getStoreNoImage():List<StoreDto>{
+        return storeRepo.findAllByImgIsNull()
+    }
+
+    fun getStoreWithImage():List<StoreDto>{
+        return storeRepo.findAllByImgIsNotNullOrderById()
+    }
 }

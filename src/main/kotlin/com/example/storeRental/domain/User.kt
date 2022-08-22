@@ -12,7 +12,9 @@ class User(
     var email: String,
     private var hashPassword:String,
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "userRole", joinColumns = [JoinColumn(name = "userId")], inverseJoinColumns = [JoinColumn(name = "roleId")])
+    @JoinTable(name = "userRole",
+        joinColumns = [JoinColumn(name = "userId", foreignKey = ForeignKey(name = "fk_user_id"))],
+        inverseJoinColumns = [JoinColumn(name = "roleId", foreignKey = ForeignKey(name = "fk_role_id"))])
     var roles:MutableSet<Role>
 ): BaseModel(){
     fun getHashPwd() = hashPassword

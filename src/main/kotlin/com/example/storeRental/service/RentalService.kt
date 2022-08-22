@@ -3,7 +3,7 @@ package com.example.storeRental.service
 import com.example.storeRental.domain.Rental
 import com.example.storeRental.repo.RentalRepo
 import com.example.storeRental.utils.requestClass.RentalExchangeStoreRequest
-import com.example.storeRental.utils.dto.RentalDto
+import com.example.storeRental.dto.RentalDto
 import com.example.storeRental.utils.responseClass.ResponseData
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -96,7 +96,7 @@ class RentalService(private val rentalRepo: RentalRepo,
                  LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
                  DateTimeFormatter.ofPattern("dd-MMMM-yyyy"))
 
-             ////add new-customer's rental to old-cus
+             //add new-customer's rental to old-cus
              newCusRental?.customer = oldCus
              newCusRental?.updatedDate = LocalDate.parse(
                  LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
@@ -105,10 +105,10 @@ class RentalService(private val rentalRepo: RentalRepo,
              rentalRepo.saveAll(listOf(wantedRental, newCusRental))
 
              //remove rental from new-cus
-             newCus.rentals?.remove(newCusRental)
+            newCus.rentals.remove(newCusRental)
 
              //remove rental from old-cus
-             oldCus.rentals?.remove(wantedRental)
+            oldCus.rentals.remove(wantedRental)
 
              customerService.save(oldCus)
              customerService.save(newCus)

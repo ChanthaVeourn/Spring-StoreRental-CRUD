@@ -3,7 +3,7 @@ package com.example.storeRental.controller
 import com.example.storeRental.utils.requestClass.UserLoginRequest
 import com.example.storeRental.utils.requestClass.UserRegisterRequest
 import com.example.storeRental.service.UserService
-import com.example.storeRental.utils.dto.UserDto
+import com.example.storeRental.utils.responseClass.ResponseData
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -15,9 +15,10 @@ import javax.servlet.http.HttpServletResponse
 class UserController(private var userService: UserService) {
 
     @GetMapping("/{id}")
-    fun getUserById(@PathVariable id:Long):ResponseEntity<UserDto>{
+    fun getUserById(@PathVariable id:Long):ResponseEntity<ResponseData>{
         val user =  userService.getUserById(id)
-        return ResponseEntity.ok().body(user)
+        user?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok().body(ResponseData(statusCode = 200, data = user))
     }
 
     @GetMapping

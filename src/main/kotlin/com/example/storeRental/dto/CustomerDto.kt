@@ -1,4 +1,4 @@
-package com.example.storeRental.utils.dto
+package com.example.storeRental.dto
 
 data class CustomerDto (
     val id:Long?,

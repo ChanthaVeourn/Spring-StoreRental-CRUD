@@ -1,4 +1,4 @@
-package com.example.storeRental.utils.dto
+package com.example.storeRental.dto
 
 import java.time.LocalDate
 

@@ -2,10 +2,11 @@ package com.example.storeRental.controller
 
 import com.example.storeRental.domain.Customer
 import com.example.storeRental.domain.Rental
+import com.example.storeRental.domain.Store
 import com.example.storeRental.service.CustomerService
-import com.example.storeRental.utils.dto.CustomerDto
-import com.example.storeRental.utils.dto.RentalDetailDto
-import com.example.storeRental.utils.dto.CustomerNameIdDto
+import com.example.storeRental.dto.CustomerDto
+import com.example.storeRental.dto.RentalDetailDto
+import com.example.storeRental.dto.CustomerNameIdDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -18,6 +19,10 @@ class CustomerController(private val customerService: CustomerService){
         return ResponseEntity.ok().body(customerService.getAll())
     }
 
+    @GetMapping("/stores")
+    fun getAllStores():List<Store>{
+        return customerService.getAllRentedStore(1)!!
+    }
     @GetMapping("/{name}")
     fun getByName(@PathVariable name:String):List<CustomerDto>{
         return customerService.getByName(name)

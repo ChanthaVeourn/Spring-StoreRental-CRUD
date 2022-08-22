@@ -1,8 +1,5 @@
 package com.example.storeRental.domain
 
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 
@@ -12,8 +9,8 @@ class StoreImage(
     @Column(nullable = false, length = 128)
     var imgUrl: String,
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "storeId")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", referencedColumnName = "id", foreignKey = ForeignKey(name = "fk_store_id"))
     var store:Store? = null
 
 ):BaseModel()

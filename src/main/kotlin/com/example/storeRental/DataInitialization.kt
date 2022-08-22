@@ -35,6 +35,8 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         storeTypeRepo.saveAll(listOf(storeT1, storeT2, storeT3, storeT4, storeT5))
 
         val store1 = Store(storeType = storeT1, unitPrice = 1200.99, floor = "3")
+        val img = StoreImage("/img/k.jpg", store1)
+        store1.img = img
         val store2 = Store(storeType = storeT2, unitPrice = 1100.99, floor = "12")
         val store3 = Store(storeType = storeT4, unitPrice = 1000.99, floor = "8")
         val store4 = Store(storeType = storeT2, unitPrice = 566.99, floor = "8")
@@ -46,9 +48,6 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         val store10 = Store(storeType = storeT1, unitPrice = 1200.99, floor = "6B")
         val store11 = Store(storeType = storeT2, unitPrice = 800.99, floor = "12")
         storeRepo.saveAll(listOf(store1,store2,store3,store4,store5,store6,store7,store8,store9,store10,store11))
-
-        val img1 = StoreImage("/img/k.jpg",store1)
-        storeImageRepo.save(img1)
 
         val cus1 = Customer(name = "bot", address = "btn", phone = "0465324")
         val cus2 = Customer(name = "roman", address = "fds", phone = "045656453")

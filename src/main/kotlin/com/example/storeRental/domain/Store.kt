@@ -1,20 +1,18 @@
 package com.example.storeRental.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
 class Store(
 
-    @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "StoreTypeID", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "StoreTypeID", referencedColumnName = "id", foreignKey = ForeignKey(name = "fk_store_type_id"))
     var storeType: StoreType,
 
     @JsonIgnore
-    @OneToOne( fetch = FetchType.LAZY, mappedBy = "store", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToOne(mappedBy = "store", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     var img: StoreImage? = null,
 
     @Column(nullable = false)

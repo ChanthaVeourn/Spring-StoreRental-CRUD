@@ -8,11 +8,14 @@ import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 @Entity
+@Table(indexes = [
+    Index(name = "idx_rental_cusid", columnList = "CusId")
+])
 class Rental(
 
     @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "CusId", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CusId", nullable = false, referencedColumnName = "id",foreignKey = ForeignKey(name = "fk_customer_id"))
     var customer: Customer,
 
     @JsonIgnore
