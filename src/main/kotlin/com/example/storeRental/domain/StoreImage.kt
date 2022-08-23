@@ -1,12 +1,14 @@
 package com.example.storeRental.domain
 
+import org.jetbrains.annotations.NotNull
 import javax.persistence.*
 
 
 @Entity
 class StoreImage(
 
-    @Column(nullable = false, length = 128)
+    @NotNull
+    @Column(length = 128)
     var imgUrl: String,
 
     @OneToOne(fetch = FetchType.LAZY)

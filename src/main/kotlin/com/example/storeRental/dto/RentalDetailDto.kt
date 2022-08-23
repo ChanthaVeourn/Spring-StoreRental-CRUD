@@ -3,10 +3,10 @@ package com.example.storeRental.dto
 import java.time.LocalDate
 
 data class RentalDetailDto (
-    val rentalId:Long,
-    val storeId:Long,
-    val unitPrice:Double,
-    val floor:String,
-    val createdDate:LocalDate,
-    val Id:Long
+    val rentalId:Long? = null,
+    val storeId:Long? = null,
+    val unitPrice:Double? = null,
+    val floor:String? = null,
+    val createdDate:LocalDate? = null,
+    val Id:Long? = null
     )

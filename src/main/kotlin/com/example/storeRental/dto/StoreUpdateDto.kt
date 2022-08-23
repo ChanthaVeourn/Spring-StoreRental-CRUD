@@ -1,8 +1,8 @@
 package com.example.storeRental.dto
 
 class StoreUpdateDto(
-    val id: Long?,
-    val unitPrice:Double?,
-    val floor:String?,
-    val rented:Boolean?
+    val id: Long? = null,
+    val unitPrice:Double? = null,
+    val floor:String? = null,
+    val rented:Boolean? = null
 )

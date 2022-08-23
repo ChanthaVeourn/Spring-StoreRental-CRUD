@@ -3,6 +3,7 @@ package com.example.storeRental.domain
 import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import javax.persistence.*
+import javax.validation.constraints.Size
 
 @Entity
 class Store(
@@ -19,6 +20,7 @@ class Store(
     var unitPrice:Double,
 
     @Column(nullable = false, length = 16)
+    @Size(max = 16)
     var floor:String,
 
     @Column(name = "rentedStatus")

@@ -1,8 +1,8 @@
 package com.example.storeRental.dto
 
 data class CustomerDto (
-    val id:Long?,
-    var name:String?,
-    var address:String?,
-    var phone: String?,
+    val id:Long? = null,
+    var name:String? = null,
+    var address:String? = null,
+    var phone: String? = null,
 )

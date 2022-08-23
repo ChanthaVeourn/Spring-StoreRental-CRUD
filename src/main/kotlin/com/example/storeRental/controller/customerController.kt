@@ -31,9 +31,8 @@ class CustomerController(private val customerService: CustomerService){
     @GetMapping("/phone")
     fun getByPhonePrefix(@RequestParam preNum:String):ResponseEntity<List<CustomerDto>>{
         val res = customerService.findByPhonePrefix(preNum)
-        if(res != null)
-            return ResponseEntity.ok(res)
-        return ResponseEntity.notFound().build()
+        res?:return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(res)
     }
 
     @PostMapping("/rents")

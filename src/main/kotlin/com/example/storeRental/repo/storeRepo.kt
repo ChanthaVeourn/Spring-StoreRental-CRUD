@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface StoreRepo: JpaRepository<Store, Long> {
-    fun findByRentedTrue():List<Store>
+    fun findByRentedTrue():List<StoreDto>
 
     fun findStoresBy():List<StoreDto>
 

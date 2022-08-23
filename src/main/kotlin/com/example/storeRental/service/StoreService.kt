@@ -31,7 +31,7 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
         return storeRepo.findStoresBy()
     }
 
-    fun getAllRented():List<Store>{
+    fun getAllRented():List<StoreDto>?{
         return storeRepo.findByRentedTrue()
     }
 
@@ -51,7 +51,6 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
             if(storeCreateRequest.imgUrl != null && storeCreateRequest.imgUrl != ""){
                 val newImg = StoreImage(imgUrl = storeCreateRequest.imgUrl, store = newStore)
                 storeImageRepo.save(newImg)
-
             }
             return StoreDto(newStore.id,
                 newStore.unitPrice,
@@ -71,7 +70,6 @@ class StoreService(private val storeImageRepo: StoreImageRepo,
 
     fun updateImage(store:Store?, imgUrl:String): StoreUpdateImgDto?{
 
-        val oldImg = store?.img
         if(store != null){
             store.updatedDate = LocalDate.parse(
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),

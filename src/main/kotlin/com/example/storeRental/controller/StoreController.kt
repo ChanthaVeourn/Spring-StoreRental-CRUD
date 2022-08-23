@@ -27,8 +27,10 @@ class StoreController(private val storeService: StoreService) {
     }
 
     @GetMapping("/rented")
-    fun getAllRented():List<Store>{
-        return storeService.getAllRented()
+    fun getAllRented():ResponseEntity<List<StoreDto>>{
+        val rentedStore = storeService.getAllRented()
+        rentedStore?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(rentedStore)
     }
 
     @GetMapping("/with-img")

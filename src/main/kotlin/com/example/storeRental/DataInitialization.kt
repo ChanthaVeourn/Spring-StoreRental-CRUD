@@ -70,13 +70,13 @@ class DataInitialization(private val userRepo: UserRepo, private val cusRepo: Cu
         val rentalDetails = listOf(
             RentalDetail(store1,rental1),//cus1(cus1 -> rental1) rents store 1 / 1 rental - many rental_detail
             RentalDetail(store3,rental1),//cus 1 rents store 3
-            RentalDetail(store5,rental3),//cus 1 rents store 5
+            RentalDetail(store5,rental3),//cus 5 rents store 5
             RentalDetail(store6,rental4),
             RentalDetail(store2,rental2),
             RentalDetail(store4,rental6),
             RentalDetail(store9,rental7),
             RentalDetail(store8,rental8),
-            RentalDetail(store8,rental2)
+            RentalDetail(store8,rental5)
         )
         rentalDetailRepo.saveAll(rentalDetails)
     }
