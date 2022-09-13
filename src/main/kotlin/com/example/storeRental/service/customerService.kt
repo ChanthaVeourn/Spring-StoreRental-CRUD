@@ -33,6 +33,7 @@ class CustomerService(
     override fun deleteById(id: Long) {
         customerRepo.deleteById(id)
     }
+
     fun getAll():List<Customer>{
         return customerRepo.findAll()
     }
@@ -85,7 +86,7 @@ class CustomerService(
         val customer = customerRepo.findById(customerId).orElse(null)
         val store = storeRepo.findById(storeId).orElse(null)
 
-        if(customer != null && store != null ){
+        if(customer != null || store != null ){
             val rentalId = customerRepo.getRentalIdByStoreId(customerId, storeId)
             val rental = customer.rentals.first { it.id == rentalId }
             customer.rentals.remove(rental)

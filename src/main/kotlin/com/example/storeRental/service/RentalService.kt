@@ -39,6 +39,10 @@ class RentalService(private val rentalRepo: RentalRepo,
       return false
     }
 
+    fun getByCusId(cusId:Long):List<Long>?{
+        return rentalRepo.getRentalCusId(cusId)
+    }
+
     fun findAllRental():ResponseData?{
         val rentalList = rentalRepo.findAll()
         val rentalRes = mutableListOf<RentalDto>()

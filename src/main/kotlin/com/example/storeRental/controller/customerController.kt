@@ -23,6 +23,7 @@ class CustomerController(private val customerService: CustomerService){
     fun getAllStores():List<Store>{
         return customerService.getAllRentedStore(1)!!
     }
+
     @GetMapping("/{name}")
     fun getByName(@PathVariable name:String):List<CustomerDto>{
         return customerService.getByName(name)

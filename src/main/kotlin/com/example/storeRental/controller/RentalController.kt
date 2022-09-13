@@ -33,6 +33,11 @@ class RentalController(private val rentalService: RentalService){
         return ResponseEntity.notFound().build()
     }
 
+    @GetMapping("/get-by-cus-id")
+    fun getByCusId(@RequestParam cusId:Long):ResponseEntity<List<Long>>{
+        return ResponseEntity.ok(rentalService.getByCusId(cusId))
+    }
+
     @PostMapping("/delete")
     fun deleteRental(@RequestParam rentalId:Long):ResponseEntity<String>{
         if(rentalService.deleteRentalById(rentalId)){
